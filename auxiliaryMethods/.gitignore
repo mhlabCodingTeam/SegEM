@@ -1,0 +1,6 @@
+*.asv
+*.m~
+*.mexa64
+images/
+*.db
+*.swp
