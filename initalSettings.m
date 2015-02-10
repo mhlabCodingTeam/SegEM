@@ -13,6 +13,9 @@ jobManagerName = 'local';
 % working directory (for output, e.g. trained CNN, visualizations, ...)
 outputDirectory = '/home/mberning/localStorage/data/SegEM/';
 
+% NO MODIFICATIONS NECESSARY UNDER THIS LINE
+
+
 % Compile mex watershed 
 % %Linux mex
 mex CFLAGS="\$CFLAGS -U FORTIFY_SOURCE -std=c99" -outdir retina/segmentation/watershedBasedSeg -largeArrayDims retina/segmentation/watershedBasedSeg/watershit_3D.cpp;
@@ -22,7 +25,6 @@ mex CFLAGS="\$CFLAGS -U FORTIFY_SOURCE -std=c99" -outdir retina/segmentation/wat
 % ... and nml parser
 mex -outdir auxiliaryMethods auxiliaryMethods/parseNml.c;
 
-% NO MODIFICATIONS NECESSARY UNDER THIS LINE
 codeDirectory = pwd;
 
 % User interaction, choose which dataset/code version to work with
