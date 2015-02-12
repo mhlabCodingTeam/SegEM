@@ -1,15 +1,16 @@
-function submitJob( cnet, dataRaw, dataTrace )
+function submitJob( cnet, dataRaw, dataTrace, outputDir )
 %createJob( cnet )
 %   Create Job training CNN on cluster
 
-% Load cluster configuration
-jm = findResource('scheduler', 'type', 'jobmanager', 'configuration', 'FermatGPU_CNN');
+% Load parcluster configuration
+global jobManagerName;
+jm = parcluster(jobManagerName);
 
 % Create random string for identification of network
-rng('shuffle');
+rng('shuffle'); % Set RNG to 'random' state based on time
 randNumber = floor(rand*1000000);
-randString = [date '/' 'net' num2str(randNumber, '%6.6u')];
-resultDir = ['/zdata/manuel/fermatResults/' randString '/'];
+randString = [date filesep 'net' num2str(randNumber, '%6.6u')];
+resultDir = [outputDir randString filesep];
 
 % Create Directories for saving results & start learning
 if(exist(resultDir,'dir'))
@@ -18,19 +19,19 @@ else
     mkdir(resultDir);
     cnet.run.savingPath = resultDir;
     % Create job on cluster
-    job = createJob(jm, 'configuration', 'FermatGPU_CNN');
+    job = createJob(jm);
     inputargs = {cnet, dataRaw, dataTrace};
-    createTask(job, @trainGradient, 1, inputargs, 'configuration', 'FermatGPU_CNN');
+    createTask(job, @trainGradient, 1, inputargs);
     % Save CNN Parameter values to Excel File
-    saveJobParamToXls(cnet, ['/zdata/manuel/sync/toP1-377/PDF/' date '/']);
+    saveJobParamToXls(cnet, [resultDir filesep date filesep]);
     % Start job and save job in "DB"
-    if exist('/zdata/manuel/fermatResults/activeJobs.mat', 'file')
-        load('/zdata/manuel/fermatResults/activeJobs.mat');
+    if exist([resultDir filesep 'activeJobs.mat'], 'file')
+        load([resultDir filesep 'activeJobs.mat']);
     end
     jobs.(['net' num2str(randNumber, '%6.6u')]).rand = randNumber;
     jobs.(['net' num2str(randNumber, '%6.6u')]).date = date;
     jobs.(['net' num2str(randNumber, '%6.6u')]).id = job.ID;
-    save('/zdata/manuel/fermatResults/activeJobs.mat', 'jobs');
+    save([resultDir filesep 'activeJobs.mat'], 'jobs');
     submit(job);
 end
 

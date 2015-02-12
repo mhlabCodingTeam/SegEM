@@ -13,28 +13,33 @@ jobManagerName = 'local';
 % working directory (for output, e.g. trained CNN, visualizations, ...)
 outputDirectory = '/home/mberning/localStorage/data/SegEM/';
 
-% NO MODIFICATIONS NECESSARY UNDER THIS LINE
+% NO MODIFICATIONS NECESSARY UNDER THIS LINE USUALLY
 
+display('If you get warning or errors here, please first try to run mex -setup');
+% Compile mex watershed and nml parser
+if strcmp(computer('arch'), 'glnxa64')
+    % %Linux mex
+    mex CFLAGS="\$CFLAGS -U FORTIFY_SOURCE -std=c99" -largeArrayDims -outdir retina/segmentation/watershedBasedSeg retina/segmentation/watershedBasedSeg/watershit_3D.c;
+    mex -outdir auxiliaryMethods auxiliaryMethods/parseNml.c;
+elseif strcmp(computer('arch'), 'PCWIN64')
+    % %Windows mex (to comply with C99 standard C++ used)
+    mex -largeArrayDims -outdir retina\segmentation\watershedBasedSeg retina\segmentation\watershedBasedSeg\watershit_3D.c;
+    mex -outdir auxiliaryMethods auxiliaryMethods\parseNml.c;
+else
+    display('Please set up mex to run with your architecture!')
+end
 
-% Compile mex watershed 
-% %Linux mex
-mex CFLAGS="\$CFLAGS -U FORTIFY_SOURCE -std=c99" -outdir retina/segmentation/watershedBasedSeg -largeArrayDims retina/segmentation/watershedBasedSeg/watershit_3D.cpp;
-% %Windows mex (to comply with C99 standard C++ used)
-% mex -largeArrayDims -outdir segmentation/ segmentation/watershit_3D.cpp;
-
-% ... and nml parser
-mex -outdir auxiliaryMethods auxiliaryMethods/parseNml.c;
-
+% This requires that matlab i
 codeDirectory = pwd;
 
 % User interaction, choose which dataset/code version to work with
 button = questdlg('Which data do you want to look at?', ...
     'Choose dataset', 'Retina (ek0563)', 'Cortex (2012_09_28_ex145_07x2)', 'Retina (ek0563)');
 if strcmp(button, 'Retina (ek0563)')
-    run retina/startup.m
+    run(['retina' filesep 'startup.m']);
 end
 if strcmp(button, 'Cortex (2012_09_28_ex145_07x2)')
-    run cortex/startup.m
+    run(['cortex' filesep 'startup.m']);
 end
 clear button;
 

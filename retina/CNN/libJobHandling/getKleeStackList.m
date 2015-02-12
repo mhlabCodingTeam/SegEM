@@ -1,12 +1,10 @@
-function [ dataRaw, dataTrace ] = getKleeStackList()
+function [ dataRaw, dataTrace ] = getKleeStackList(pathRaw, pathTracing)
 %[ dataRaw, dataTrace ] = getKleeStackList()
 %   Creates two cell arrays with raw and traing data
 
 % Parameters for file name generation
-pathRaw = '/zdata/manuel/e_k0563/KLEEcubes/';
 rawPre = 'e_k0563_ribbon_';
 rawSuf = '_raw.mat';
-pathTracing = '/zdata/manuel/e_k0563/tracing/KLEE/stackLocalCoordsXYcorrected/';
 startIndex = 16;
 
 files = dir([pathTracing '*.mat']);

@@ -1,10 +1,7 @@
-% load data
-load('../folders.mat');
-
-% set Matlab path for retina
-addpath(genpathGit(pwd));
-addpath(genpathGit('../auxiliaryMethods/'));
-addpath(genpathGit('../volumeReconstruction/'));
+% set Matlab path for cortex
+addpath(genpath([codeDirectory filesep 'retina']));
+addpath(genpath([codeDirectory filesep 'auxiliaryMethods']));
+addpath(genpath([codeDirectory filesep 'volumeReconstruction']));
 
 % open relevant scripts
 open('CNN/main.m');

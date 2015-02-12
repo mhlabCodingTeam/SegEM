@@ -14,7 +14,7 @@ cm = distinguishable_colors(length(unique(segmentation(:)))-1, [0 0 0; 1 1 1]);
 % Add black for bg
 cm = [0 0 0; cm];
 
-figure;
+figure('Position', [1           1        2880        1474]);
 set(gcf,'NextPlot','replacechildren');
 set(gcf,'Renderer','OpenGL');
 writerObj = VideoWriter(outputFile);
@@ -23,11 +23,11 @@ open(writerObj);
 % Write each z-layer as one video frame
 for f=1:size(raw,3)
     hold off;
-    imshow(raw(:,:,f), [60 180]);
+    imshow(raw(:,:,f), [0 255]);
     hold on;
     temp = label2rgb(segmentation(:,:,f), cm);
-    himage = imshow(temp, [60 180]);
-    set(himage, 'AlphaData', 0.15 );
+    himage = imshow(temp);
+    set(himage, 'AlphaData', 0.2 );
     frame = getframe;
     writeVideo(writerObj,frame);
 end

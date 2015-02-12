@@ -1,6 +1,12 @@
+%% Script for demonstrating use of CNN training on affinity maps (and retina training data)
+% This version of the code is no longer developed and mainly here for
+% documentation
+
 %% Load raw and trace data (and exclude ones with traicng errors or large processes)
-[dataRaw, dataTrace] = getKleeStackList();
-% Exclude 186
+pathToRawData = [dataDirectory filesep 'onlineMaterial' filesep 'extracted' filesep 'raw' filesep];
+pathToTracingData = [dataDirectory filesep 'onlineMaterial' filesep 'extracted' filesep 'tracing' filesep];
+[dataRaw, dataTrace] = getKleeStackList(pathToRawData,pathToTracingData);
+% Exclude 186 %% ribbon ID as mentioned in filename, does NOT match index here
 dataRaw(174) = [];
 dataTrace(174) = [];
 % Exclude 183
@@ -27,6 +33,13 @@ dataTrace(26) = [];
 % Exclude 6
 dataRaw(6) = [];
 dataTrace(6) = [];
+
+%% Visualize
+stackNr = 1;
+load(dataRaw{stackNr});
+load(dataTrace{stackNr});
+makeSegMovie(kl_stack, kl_roi, [outputDirectory filesep 'stackVideo.avi']);
+makeIsosurfaceView(kl_stack, kl_roi, [outputDirectory filesep 'stackView.png']);
 
 %% Example: Initialize CNNs and start on cluster
 % Jacket (accelereyes) is prerequisite for training
@@ -76,7 +89,7 @@ end
 
 % Train CNNs on cluster
 for i=1:nrJobs
-    submitJob(cnet{i}, dataRaw, dataTrace);
+    submitJob(cnet{i}, dataRaw, dataTrace, outputDirectory);
 end
 
 %% Kill all jobs on cluster (e.g. if visualization (s. below) shows bad results or errors occured)
