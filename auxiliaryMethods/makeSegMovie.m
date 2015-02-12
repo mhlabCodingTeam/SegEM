@@ -14,10 +14,17 @@ cm = distinguishable_colors(length(unique(segmentation(:)))-1, [0 0 0; 1 1 1]);
 % Add black for bg
 cm = [0 0 0; cm];
 
-figure('Position', [1           1        2880        1474]);
+figure();
 set(gcf,'NextPlot','replacechildren');
 set(gcf,'Renderer','OpenGL');
-writerObj = VideoWriter(outputFile);
+if strcmp(computer('arch'), 'glnxa64')
+    writerObj = VideoWriter(outputFile, 'Motion JPEG AVI');
+elseif strcmp(computer('arch'), 'PCWIN64')
+    writerObj = VideoWriter(outputFile, 'MPEG-4');
+else
+    display('Please set up mex to run with your architecture!')
+end
+
 writerObj.FrameRate = 4;
 open(writerObj);
 % Write each z-layer as one video frame

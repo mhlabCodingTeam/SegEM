@@ -28,6 +28,7 @@ function parameterSearch(hyper)
 				cnet = cnet.init;
                 % Change a few things for plotting
 				cnet.run.savingPath = strrep(cnet.run.savingPath, 'iter01', 'start');
+                cnet.run.
 				startCPU(@plotNetActivitiesFull, {cnet, stacks});
 			else	
 				hyper.cnet(iter,gpu) = hyper.cnet(iter-1, hyper.results{iter-1}.win(ceil(gpu./(hyper.gpuToUse./hyper.nrNetsToKeep))).idx);

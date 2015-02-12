@@ -31,7 +31,12 @@ runSetting = train([100 100 100], [outputDirectory filesep 'CNNdebug' filesep], 
 runSetting.debug = true;
 % Run on GPU, set to runSetting.actvtClass = @single in case of errors;
 % (you can try setting this to gpuarray (MATLAB) or gsingle (Accelereyes JACKET))
-runSetting.actvtClass = @gpuArray;
+% Requires Nvidia GPU and CUDA > 4.0 (?)
+if gpuDeviceCount > 1
+    runSetting.actvtClass = @gpuArray;
+else
+	runSetting.actvtClass = @single;
+end
 cnet = cnn(4,[10 10 10 10],[21 21 11], runSetting);
 cnet = cnet.init;
 clear runSetting;
@@ -47,6 +52,10 @@ cnet.plotNetActivitiesFull(stacks);
 load([dataDirectory filesep 'supplement' filesep 'extracted' filesep 'cortex - CNN20130516T204040_8_3.mat']);
 cnet.run.savingPath = strrep(cnet.run.savingPath, ...
     '/zdata/manuel/results/parameterSearch/20130516T204040/iter08/gpu03/', [outputDirectory filesep 'trainedCNN' filesep]);
-cnet.run.actvtClass = @gpuArray;
+if gpuDeviceCount > 1
+    cnet.run.actvtClass = @gpuArray;
+else
+	cnet.run.actvtClass = @single;
+end
 cnet.plotNetActivities(stacks);
 cnet.plotNetActivitiesFull(stacks);

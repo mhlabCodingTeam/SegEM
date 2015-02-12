@@ -1,5 +1,5 @@
 %% Script for demonstrating use of CNN training on affinity maps (and retina training data)
-% This version of the code is no longer developed and mainly here for
+% This version of the code (retina) is no longer developed and mainly here for
 % documentation
 
 %% Load raw and trace data (and exclude ones with traicng errors or large processes)

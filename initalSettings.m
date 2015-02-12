@@ -1,7 +1,8 @@
 global jobManagerName;
 % Set dataLocation (where to find datasets, skeletons, trained CNNs etc
 % here as well as a ouput directory to store computed results and a WORKING
-% Matlab Cluster configuration
+% Matlab Cluster configuration, FURTHERMORE make sure than mex command in
+% matlab for compiling c-files is working
 
 % Supplementary data, Online Material and Datasets: Currently still resides on FS Frankfurt
 % on FS Frankfurt, no local copy will be generated due to size
@@ -18,18 +19,19 @@ outputDirectory = '/home/mberning/localStorage/data/SegEM/';
 display('If you get warning or errors here, please first try to run mex -setup');
 % Compile mex watershed and nml parser
 if strcmp(computer('arch'), 'glnxa64')
-    % %Linux mex
+    % Linux mex
     mex CFLAGS="\$CFLAGS -U FORTIFY_SOURCE -std=c99" -largeArrayDims -outdir retina/segmentation/watershedBasedSeg retina/segmentation/watershedBasedSeg/watershit_3D.c;
     mex -outdir auxiliaryMethods auxiliaryMethods/parseNml.c;
 elseif strcmp(computer('arch'), 'PCWIN64')
-    % %Windows mex (to comply with C99 standard C++ used)
+    % Windows mex
     mex -largeArrayDims -outdir retina\segmentation\watershedBasedSeg retina\segmentation\watershedBasedSeg\watershit_3D.c;
     mex -outdir auxiliaryMethods auxiliaryMethods\parseNml.c;
 else
     display('Please set up mex to run with your architecture!')
 end
 
-% This requires that matlab i
+% This requires that matlab is started from the baseDirectory of the github
+% repo, better alternative?
 codeDirectory = pwd;
 
 % User interaction, choose which dataset/code version to work with
