@@ -12,7 +12,7 @@ if mex
     if sum(marker(:) ~= 0) == 0
         seg = zeros(384,384,384);
     else
-        seg = watershit_3D(affX, affY, affZ, marker, N_LEVELS, N_LEVELS - N_LEVELS_BOUNDARY);
+        seg = watershed_threeTimes3D(affX, affY, affZ, marker, N_LEVELS, N_LEVELS - N_LEVELS_BOUNDARY);
     end 
 else
     seg = sk_mbwshed_3d_2(affX, affY, affZ, marker, N_LEVELS);

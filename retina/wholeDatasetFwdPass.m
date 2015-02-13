@@ -3,8 +3,8 @@ minicubeFwdPass(pT);
 
 % Create directory for segmentation parameter search input (CNN
 % classification results)
-if ~exist([dataDirectory filesep 'segOptCortex' filesep 'aff' filesep], 'dir')
-    mkdir([dataDirectory filesep 'segOptCortex' filesep 'aff' filesep]);
+if ~exist([outputDirectory filesep 'segOptCortex' filesep 'aff' filesep], 'dir')
+    mkdir([outputDirectory filesep 'segOptCortex' filesep 'aff' filesep]);
 end
 
 % Save for mainSegCortex (raw and classification data both):

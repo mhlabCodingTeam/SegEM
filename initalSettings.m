@@ -20,11 +20,11 @@ display('If you get warning or errors here, please try to run mex -setup and cho
 % Compile mex watershed and nml parser
 if strcmp(computer('arch'), 'glnxa64')
     % Linux mex
-    mex CFLAGS="\$CFLAGS -U FORTIFY_SOURCE -std=c99" -largeArrayDims -outdir retina/segmentation/watershedBasedSeg retina/segmentation/watershedBasedSeg/watershit_3D.c;
+    mex CFLAGS="\$CFLAGS -U FORTIFY_SOURCE -std=c99" -largeArrayDims -outdir retina/segmentation/watershedBasedSeg retina/segmentation/watershedBasedSeg/watershed_threeTimes3D.c;
     mex -outdir auxiliaryMethods auxiliaryMethods/parseNml.c;
 elseif strcmp(computer('arch'), 'PCWIN64')
     % Windows mex
-    mex -largeArrayDims -outdir retina\segmentation\watershedBasedSeg retina\segmentation\watershedBasedSeg\watershit_3D.c;
+    mex -largeArrayDims -outdir retina\segmentation\watershedBasedSeg retina\segmentation\watershedBasedSeg\watershed_threeTimes3D.c;
     mex -outdir auxiliaryMethods auxiliaryMethods\parseNml.c;
 else
     display('Please set up mex to run with your architecture!')
