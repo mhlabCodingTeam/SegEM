@@ -16,7 +16,7 @@ outputDirectory = '/home/mberning/localStorage/data/SegEM/';
 
 % NO MODIFICATIONS NECESSARY UNDER THIS LINE USUALLY
 
-display('If you get warning or errors here, please first try to run mex -setup');
+display('If you get warning or errors here, please try to run mex -setup and choose a compiler supported by Matlab');
 % Compile mex watershed and nml parser
 if strcmp(computer('arch'), 'glnxa64')
     % Linux mex

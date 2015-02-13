@@ -1,4 +1,4 @@
-function galleryRetina( skelPath, skelFile, outputPath )
+function galleryRetina( skelPath, skelFile, outputPath, seg )
 % Collect segments along given skeleton and calculate isosurfaces
 
 % Read .nml and 
@@ -7,9 +7,9 @@ skel_data = parseNml([skelPath skelFile]);
 % for each node, find cube in which it lays so the cubes data can be used for
 % several nodes
 nodeData.nodes = skel_data{1,1}.nodes(:,1:3);
-nodeData.cubeCoords = zeros(1,size(nodes,2));
-for i = 1 : size(nodes,1)
-   nodeData.cubeCoords(i,:) = floor(( nodes(i,:) - 1) / 128 ); %from readKnossosRoi ...  overlap of 128!
+nodeData.cubeCoords = zeros(1,size(nodeData.nodes,2));
+for i = 1 : size(nodeData.nodes,1)
+   nodeData.cubeCoords(i,:) = floor(( nodeData.nodes(i,:) - 1) / 128 ); %from readKnossosRoi ...  overlap of 128!
    nodeData.flag(i) = 0;
 end
 
@@ -35,8 +35,8 @@ end
 % belonging to one of the segments of the nodes lying in the cube 
 for i = 1 : size(groupedNodes,2)
 	%read cube
-	if all(groupedNodes{i}.cubeCoords > [7 3 1]) & all(groupedNodes{i}.cubeCoords < [30 39 42])
-	    cube = readKnossosCube('/nfs/bmo/mberning/20140310backup/mag1/', '100527_k0563_seg', groupedNodes{i}.cubeCoords, 'uint16', '', 'raw', 256);
+	if all(groupedNodes{i}.cubeCoords > [7 3 1]) && all(groupedNodes{i}.cubeCoords < [30 39 42])
+	    cube = readKnossosCube(seg.root, seg.prefix, groupedNodes{i}.cubeCoords, 'uint16=>uint16', '', 'raw', 256);
 	    %get the color values of the nodes in the cube
 	    segIds = zeros(1,size(groupedNodes{i}.nodes,1));
 	    zeroOfCube = groupedNodes{i}.cubeCoords * 128 + 1;
@@ -71,7 +71,7 @@ end
 if exist('issfs', 'var')
 	idx = zeros(length(issfs),1);
 	for i=1:length(issfs)
-		if isempty(issfs{i}) | isempty(issfs{i}.vertices)
+		if isempty(issfs{i}) || isempty(issfs{i}.vertices)
 			idx(i) = 1;
 		end
 	end

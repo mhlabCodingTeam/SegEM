@@ -59,4 +59,5 @@ else
     classT2=classT(find(classT2)+1:end);
     kl_cube = zeros( cubesize, classT2 );
 end
+
 end

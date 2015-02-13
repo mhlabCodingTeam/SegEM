@@ -7,6 +7,5 @@ addpath(genpath([codeDirectory filesep 'volumeReconstruction']));
 open('CNN/main.m');
 open('segmentation/mainSeg.m');
 open('segmentation/visualization/visSeg.m');
-open('segmentation/wholeDataset/ekSegmentationToJm.m');
-open('../volumeReconstruction/galleryRetinaStart.m');
-open('../volumeReconstruction/contactDetectionRetinaStart.m');
+open('retina/wholeDatasetFwdPass.m');
+open('../volumeReconstruction/skeletonBasedRetina.m');

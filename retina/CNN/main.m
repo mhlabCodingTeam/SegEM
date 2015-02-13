@@ -42,7 +42,6 @@ makeSegMovie(kl_stack, kl_roi, [outputDirectory filesep 'stackVideo.avi']);
 makeIsosurfaceView(kl_stack, kl_roi, [outputDirectory filesep 'stackView.png']);
 
 %% Example: Initialize CNNs and start on cluster
-% Jacket (accelereyes) is prerequisite for training
 if ~exist('dataRaw', 'var');
     error('Load data first!');
 end
@@ -70,7 +69,11 @@ for i=1:nrJobs
     cnet{i}.run = cnet{i}.run.setEtaWLinear(1,1e-5);
     cnet{i}.run = cnet{i}.run.setEtaBLinear(1e-2,1e-7);
     cnet{i}.run.wghtTyp = @double;
-    cnet{i}.run.actvtTyp = @gdouble;
+    % Decide whether CNN can be run on GPU over jobmanager
+    % If so set actctType = @gdouble (Jacket Accelereyes) or @gpuArray for 
+    % MATLAB, one will also probably need to change @cnn/trainGradient to work with
+    % cluster infrastructure (e.g. how many GPU per node etc.)
+    cnet{i}.run.actvtTyp = @double;
     cnet{i}.run.saveTyp = @double;
     cnet{i}.run.debug = true;
 end
@@ -116,7 +119,7 @@ plotErrorBinned(jobs);
 display('Plot error resorted:');
 plotErrorResorted(jobs);
 
-%% Load a certain CNN
+%% Select & load a certain CNN after consulting plots above (semiautomated selection)
 dateString = '14-May-2012';
 net = 957506;
 cnetContinue = loadSingleCNN(['/zdata/manuel/fermatResults/trainCNN/' dateString '/net' num2str(net, '%6.6u') '/']);
@@ -167,4 +170,4 @@ datasetSize = [4608 5504 5760];
 
 cnet = loadSingleCNN(['/zdata/manuel/fermatResults/trainCNN/' dateString '/net' num2str(net, '%6.6u') '/']);
 cnet.run.actvtTyp = @single;
-bigfwdPass(cnet, pathRaw, pathResult, datasetSize);
+bigFwdPass(cnet, pathRaw, pathResult, datasetSize);
