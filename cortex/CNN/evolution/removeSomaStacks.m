@@ -1,7 +1,6 @@
-function stacks = removeSomaStacks(stacks, stackDir)
+function stacks = removeSomaStacks(stacks, excludeTask)
 
-a = load(stackDir);
-for i=1:length(a.excludeTask)
+for i=1:length(excludeTask)
 	idx = [stacks.taskID] == excludeTask(i);
 	stacks(idx) = [];
 end

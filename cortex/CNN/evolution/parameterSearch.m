@@ -1,12 +1,8 @@
-function parameterSearch(hyper)
+function parameterSearch(hyper, stacks)
 % Hyperparameter search for learning rates weights and biases in each layer
 
     % Locate GPU job manager
 	jm = parcluster('local');
-
-	% Load raw and target data
-	load([hyper.stackFolder 'parameter.mat']);
-	stacks = removeSomaStacks(stacks, stackDir);
 
 	% Main loop for parameter iteration
 	for iter=1:hyper.iterations

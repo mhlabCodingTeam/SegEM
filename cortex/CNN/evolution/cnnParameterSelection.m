@@ -5,6 +5,23 @@
 stackFolder = [dataDirectory 'onlineMaterial' filesep 'extracted' filesep];
 saveFolder = [outputDirectory filesep 'CNNparameterSearch'];
 
+%% Load stacks and remove soma stacks & stacks with errors
+load([stackFolder filesep 'parameter.mat']);
+load([stackFolder filesep 'exclude.mat']);
+stacks = removeSomaStacks(stacks, excludeTask);
+clear settings excludeTask;
+
+%% Fix metadata of stacks for use with new data location
+for i=1:length(stacks)
+    stacks(i).targetFile = strrep(stacks(i).targetFile, ...
+        '/zdata/manuel/data/cortex/20130919T033350/', stackFolder);
+    stacks(i).targetFile = strrep(stacks(i).targetFile, '/', filesep);
+    stacks(i).stackFile = strrep(stacks(i).stackFile, ...
+        '/zdata/manuel/data/cortex/20130919T033350/', stackFolder);
+    stacks(i).stackFile = strrep(stacks(i).stackFile, '/', filesep);
+end
+clear stackFolder i;
+
 %% Settings for parameter search
 
 % General settings
@@ -20,9 +37,6 @@ if ~exist(hyper.saveDir, 'dir')
     mkdir(hyper.saveDir);
 end
 
-% Where to find training stacks
-hyper.stackFolder = stackFolder;
-
 % Settings for metaparameter variation
 % 10^param(1) = Range for weight variation
 % 10^param(2) = Range for bias variation
@@ -34,7 +48,7 @@ hyper.param(2).max = -9;
 hyper.param(2).nr = 5;
 
 %% Search hyperparameter (for CNN architecture see file)
-parameterSearch(hyper);
+parameterSearch(hyper, stacks);
 
 %% In case something goes wrong, continue after a specific iteration
-continueParameterSearch(hyper, 3);
+continueParameterSearch(hyper, stacks, 3);

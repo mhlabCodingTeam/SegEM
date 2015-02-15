@@ -2,7 +2,9 @@
 global jobManagerName;
 
 % A GUI to set releveant directories, Matlab jobmanager and chose a dataset
-installer
+iHandle = installer;
+waitfor(iHandle);
+clear iHandle;
 
 % NO MODIFICATIONS NECESSARY UNDER THIS LINE USUALLY
 
@@ -29,6 +31,6 @@ codeDirectory = pwd;
 if strcmp(chosenDataset, 'Retina (ek0563)')
     run(['retina' filesep 'startup.m']);
 end
-if strcmp(button, 'Cortex (2012_09_28_ex145_07x2)')
+if strcmp(chosenDataset, 'Cortex (2012_09_28_ex145_07x2)')
     run(['cortex' filesep 'startup.m']);
 end

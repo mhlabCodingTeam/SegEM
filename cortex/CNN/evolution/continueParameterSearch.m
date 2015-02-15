@@ -1,11 +1,7 @@
-function continueParameterSearch(hyper, iterStart)
+function continueParameterSearch(hyper, stacks, iterStart)
 
 	% Locate GPU job manager
 	jmGPU = parcluster('local');
-
-	% Load raw and target data
-	load([hyper.stackFolder 'parameter.mat']);
-	stacks = removeSomaStacks(stacks);
 
 	% Settings for metaparameter variation
 	hyper.param(1).min = -9;
