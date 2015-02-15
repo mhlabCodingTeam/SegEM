@@ -7,7 +7,8 @@ for i=1:nrIter(3)
     job = createJob(jm);
     set(job, 'PathDependencies', pathToAdd);
     set(job, 'RestartWorker', 1);
-    set(job, 'UserName', 'mberning');	
+	% Set username on cluster here
+    set(job, 'UserName', 'someUser');	
     for j=1:nrIter(2)
         for k=1:nrIter(1)
             % Account for cubeIDs starting at 0 instead of 1

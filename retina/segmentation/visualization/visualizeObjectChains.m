@@ -74,7 +74,7 @@ for chain=1:100
      drawnow; pause(.3);
      %orient landscape;
 %     saveas(gcf, ['object_chains/chain' num2str(chain, '%4.4i') '.pdf'])
-    print(f, '-dpdf', '-r300', ['/mnt/backup/manuel/object_chains/chain' num2str(chain, '%4.4i')]);
+    print(f, '-dpdf', '-r300', ['/some/output/directory/object_chains/chain' num2str(chain, '%4.4i')]);
     %pause;
 
 end

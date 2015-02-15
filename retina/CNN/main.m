@@ -104,7 +104,7 @@ killJob(randNumber);
 
 %% Kill finished jobs
 jm = findResource('scheduler', 'type', 'jobmanager', 'LookupURL', 'fermat01');
-job = findJob(jm(1), 'Username', 'mberning', 'state', 'finished');
+job = findJob(jm(1), 'Username', 'someUser', 'state', 'finished');
 destroy(job);
 
 %% Evaluate all currently running networks

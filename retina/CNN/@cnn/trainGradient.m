@@ -36,36 +36,7 @@ for iid1 = 1:cnet.run.maxIter
     end
     % Create Task on jobmanager if running on cluster, otherwise just call
     % learn
-%     if cnet.run.GPU && ~cnet.run.local
-%         succesful = false;
-%         % Loop in case job on GPU fails        
-%         while ~succesful
-%             job = createJob(jm);
-%             set(job, 'PathDependencies', pathToAdd);
-%             set(job, 'RestartWorker', 1);
-%             set(job, 'UserName', 'mberning');
-%             inputargs = {cnet, kl_roi, kl_stack};
-%             task = createTask(job, @learn, 4, inputargs);
-%             submit(job);
-%             waitForState(job, 'finished');
-%             errmsg = get(task, 'ErrorMessage');
-%             if isempty(errmsg);
-%                 taskout = getAllOutputArguments(job);
-%                 cnet = taskout{1,1};
-%                 error = taskout{1,2};
-%                 randEdges = taskout{1,3};
-%                 rngState = taskout{1,4};
-%                 succesful = true;
-%             else
-%                 nrFails = nrFails + 1;
-%                 failReport{nrFails}.task = get(task);
-%                 failReport{nrFails}.job = get(job);
-%             end
-%             destroy(job);
-%         end
-%     else
-        [cnet, error, randEdges, rngState] = cnet.learn( kl_roi, kl_stack);
-%     end
+	[cnet, error, randEdges, rngState] = cnet.learn( kl_roi, kl_stack);
     % Save some data
     currentStack = rawData{currentIndex};
     cnet = cnet.forAll(cnet.run.saveTyp);

@@ -18,7 +18,7 @@ jobIDs(cellfun('isempty',jobIDs)) = [];
 randNumber(cellfun('isempty',randNumber)) = [];
 jm = findResource('scheduler', 'type', 'jobmanager', 'configuration', 'FermatGPU');
 for i = 1:length(jobIDs)
-    job = findJob(jm, 'Username', 'mberning', 'ID', jobIDs{i});
+    job = findJob(jm, 'Username', 'someUser', 'ID', jobIDs{i});
     destroy(job);
     jobs = rmfield(jobs, ['net' num2str(randNumber{i}, '%6.6u')]);
 end

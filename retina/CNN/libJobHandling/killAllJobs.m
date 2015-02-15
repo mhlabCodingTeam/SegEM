@@ -5,9 +5,9 @@ function killAllJobs(which, finished)
 jm = findResource('scheduler', 'type', 'jobmanager', 'LookupURL', 'fermat01');
 if any(which == 1)
     if finished
-        jobs = findJob(jm(1), 'Username', 'mberning', 'state', 'finished');
+        jobs = findJob(jm(1), 'Username', 'someUser', 'state', 'finished');
     else
-        jobs = findJob(jm(1), 'Username', 'mberning');
+        jobs = findJob(jm(1), 'Username', 'someUser');
     end
     if ~isempty(jobs)
         destroy(jobs);
@@ -15,9 +15,9 @@ if any(which == 1)
 end
 if any(which == 2)
     if finished
-        jobs = findJob(jm(2), 'Username', 'mberning', 'state', 'finished');
+        jobs = findJob(jm(2), 'Username', 'someUser', 'state', 'finished');
     else
-        jobs = findJob(jm(2), 'Username', 'mberning');
+        jobs = findJob(jm(2), 'Username', 'someUser');
     end
     if ~isempty(jobs)
         destroy(jobs);

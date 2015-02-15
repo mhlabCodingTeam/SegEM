@@ -22,7 +22,8 @@ map = 1;
 r = 2;
 load([param.dataFolder param.affSubfolder param.affMaps(map).name '.mat']);
 load([param.dataFolder param.outputSubfolder param.affMaps(map).name '/MorphRecon' num2str(r) '.mat']);
-addpath('/home/mberning/code/KLEE');
+%%  add path to KLEE repo from github
+addpath('/home/someUser/code/KLEE');
 KLEE_v4('stack', aff, 'stack_2', v, 'stack_3', raw);
 
 %% KLEE: Show errors of a segmentation (see makeErrorStacks.m)
@@ -34,11 +35,12 @@ par2 = 1;
 error = 1;
 param.subfolder = [param.affMaps(map).name '_' num2str(algo) '_' num2str(param.r(r)) '_' num2str(param.pR{map,algo}{1}(par1), '%4.4f') '_' num2str(param.pR{map,algo}{2}(par2), '%4.4f') '/'];
 load([param.dataFolder param.figureSubfolder param.subfolder 'errorStacks' num2str(error, '%2.2i') '.mat']);
-addpath('/home/mberning/code/KLEE');
+%%  add path to KLEE repo from github
+addpath('/home/someUser/code/KLEE');
 KLEE_v4('stack', raw, 'stack_2', obj, 'stack_3', skel);
 
 a = skel == 2 & obj ~=0;
 coord = ind2sub(size(a), find(a));
 
 %% Remove KLEE path (as it shadows certain MATLAB functions used above when in path)
-rmpath('/home/mberning/code/KLEE');
+rmpath('/home/someUser/code/KLEE');

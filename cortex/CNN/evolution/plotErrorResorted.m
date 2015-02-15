@@ -22,6 +22,5 @@ errorbar(1:maxMinibatchId, a.mean, a.lower, a.upper);
 title(['Error sorted according to minibatch for iteration ' num2str(iter, '%.2i')]);
 saveas(gcf,[savingDir 'errorRateMinibatches' num2str(iter, '%.2i') '.fig']);
 saveas(gcf,[savingDir 'errorRateMinibatches' num2str(iter, '%.2i') '.png']);
-system(['chown -R mberning ' savingDir]);
 
 end
