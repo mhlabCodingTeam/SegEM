@@ -19,7 +19,7 @@ Please execute initalSettings.m first, this will start a GUI to set needed infor
 
 ---
 
-IMPORTNAT NOTE: Only cortex is set up and tested completly, for retina volume reconstruction and contact detection based on supplied segmentation is working as well.
+IMPORTANT NOTE: Only cortex is set up and tested completly, for retina volume reconstruction and contact detection based on supplied segmentation is working as well.
 If you are not specifically interested in the retina dataset/code version or want to apply the scripts to your own data it is therefore adviseable to use cortex.
 
 After settings have been completed, relevant scipts will open which can be executed from top to bottom using Ctrl+Enter and are opened in an order that should be most instructive to follow (e.g. start with top- or leftmost script).
