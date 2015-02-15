@@ -1,6 +1,6 @@
 function ekSegmentationToJm()
 
-dir = '/zdata/manuel/results/CNNfwdPass/14-Feb-2013618765/';
+dir = '/path/to/some/directory/results/CNNfwdPass/14-Feb-2013618765/';
 jm = findResource('scheduler', 'configuration', 'local_1');
 job = createJob(jm, 'configuration', 'local_1');
 for i=1:2%36

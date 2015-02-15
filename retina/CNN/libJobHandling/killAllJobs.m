@@ -23,7 +23,7 @@ if any(which == 2)
         destroy(jobs);
     end
 end
-delete('/zdata/manuel/fermatResults/activeJobs.mat');
+delete('/path/to/some/directory/fermatResults/activeJobs.mat');
 
 end
 

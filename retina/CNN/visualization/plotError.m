@@ -11,8 +11,8 @@ hold on;
 fields = fieldnames(struct);
 nrIter = zeros(length(fields),1);
 for i=1:length(fields)
-    [result, nrIter(i)] = loadCNNResults(['/zdata/manuel/fermatResults/' struct.(fields{i}).date '/net' num2str(struct.(fields{i}).rand, '%6.6u') '/'], {'error'});
-    [cnet, ~] = loadSingleCNN(['/zdata/manuel/fermatResults/' struct.(fields{i}).date '/net' num2str(struct.(fields{i}).rand, '%6.6u') '/']);
+    [result, nrIter(i)] = loadCNNResults(['/path/to/some/directory/fermatResults/' struct.(fields{i}).date '/net' num2str(struct.(fields{i}).rand, '%6.6u') '/'], {'error'});
+    [cnet, ~] = loadSingleCNN(['/path/to/some/directory/fermatResults/' struct.(fields{i}).date '/net' num2str(struct.(fields{i}).rand, '%6.6u') '/']);
     maxIterMini = cnet.run.maxIterMini;
     error = zeros(length(result.error)*maxIterMini,1);
     errorC = zeros(length(result.error)*maxIterMini,1);
@@ -45,7 +45,7 @@ legend(fields, 'Location', 'BestOutside');
 % Save to PDF file in sync folder
 set(gcf, 'PaperPosition', [0 0 15 10]);
 set(gcf, 'PaperSize', [15 10]);
-print('-dpdf', ['/zdata/manuel/sync/toP1-377/PDF/' struct.(fields{i}).date '/error.pdf']);
+print('-dpdf', ['/path/to/some/directory/sync/toP1-377/PDF/' struct.(fields{i}).date '/error.pdf']);
 close all;
 
 end

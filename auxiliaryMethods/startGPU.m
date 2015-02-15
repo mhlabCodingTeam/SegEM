@@ -7,7 +7,7 @@ end
 
 
 % We only need CNN path dependencies on the GPU part of the cluster
-pathDependencies = {'/usr/local/jacket/' '/usr/local/jacket/engine/' '/zdata/manuel/code/CNN/' '/zdata/manuel/code/auxiliaryMethods/' '/zdata/manuel/code/auxiliaryMethods/cubes/' '/zdata/manuel/code/pipeline/'};
+pathDependencies = {'/usr/local/jacket/' '/usr/local/jacket/engine/' '/path/to/some/directory/code/CNN/' '/path/to/some/directory/code/auxiliaryMethods/' '/path/to/some/directory/code/auxiliaryMethods/cubes/' '/path/to/some/directory/code/pipeline/'};
 
 % Load cluster configuration
 jm = findJm();

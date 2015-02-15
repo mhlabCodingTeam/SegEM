@@ -1,7 +1,7 @@
 function bigFwdPass( cnet, input, result, datasetSize)
 jm = findResource('scheduler', 'type', 'jobmanager', 'LookupURL', 'fermat01');
 jm = jm(1);
-pathToAdd = {'/zdata/manuel/code/CNN/', '/zdata/manuel/code/aux/', '/usr/local/jacket/', '/usr/local/jacket/engine/'};
+pathToAdd = {'/path/to/some/directory/code/CNN/', '/path/to/some/directory/code/aux/', '/usr/local/jacket/', '/usr/local/jacket/engine/'};
 nrIter = ceil(datasetSize / 128);
 for i=1:nrIter(3)
     job = createJob(jm);

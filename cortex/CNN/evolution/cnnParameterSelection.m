@@ -14,10 +14,10 @@ clear settings excludeTask;
 %% Fix metadata of stacks for use with new data location
 for i=1:length(stacks)
     stacks(i).targetFile = strrep(stacks(i).targetFile, ...
-        '/zdata/manuel/data/cortex/20130919T033350/', stackFolder);
+        '/path/to/some/directory/data/cortex/20130919T033350/', stackFolder);
     stacks(i).targetFile = strrep(stacks(i).targetFile, '/', filesep);
     stacks(i).stackFile = strrep(stacks(i).stackFile, ...
-        '/zdata/manuel/data/cortex/20130919T033350/', stackFolder);
+        '/path/to/some/directory/data/cortex/20130919T033350/', stackFolder);
     stacks(i).stackFile = strrep(stacks(i).stackFile, '/', filesep);
 end
 clear stackFolder i;

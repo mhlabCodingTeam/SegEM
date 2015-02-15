@@ -108,7 +108,7 @@ job = findJob(jm(1), 'Username', 'mberning', 'state', 'finished');
 destroy(job);
 
 %% Evaluate all currently running networks
-load /zdata/manuel/fermatResults/activeJobs.mat;
+load /path/to/some/directory/fermatResults/activeJobs.mat;
 sizeMovAvg = 5000;
 display('Plotting net activities:');
 plotNetActivities(jobs);
@@ -122,7 +122,7 @@ plotErrorResorted(jobs);
 %% Select & load a certain CNN after consulting plots above (semiautomated selection)
 dateString = '14-May-2012';
 net = 957506;
-cnetContinue = loadSingleCNN(['/zdata/manuel/fermatResults/trainCNN/' dateString '/net' num2str(net, '%6.6u') '/']);
+cnetContinue = loadSingleCNN(['/path/to/some/directory/fermatResults/trainCNN/' dateString '/net' num2str(net, '%6.6u') '/']);
 
 %% Restart CNN loaded above with varied parameters
 nrJobs = 4;
@@ -146,7 +146,7 @@ end
 
 %% Evaluate networks not currently running (adjust nets & date value)
 dateString = '02-Apr-2012';
-list = dir(['/zdata/manuel/fermatResults/' dateString '/' 'net*']);
+list = dir(['/path/to/some/directory/fermatResults/' dateString '/' 'net*']);
 
 for i=1:length(list)
     jobs.(list(i).name).date = dateString;
@@ -160,14 +160,14 @@ plotError(jobs, sizeMovAvg);
 %% Make a big fwdPass through the network
 dateString = '14-Jul-2012';
 net = 694915;
-addpath('/zdata/manuel/code/CNN/');
-pathRaw.root = '/zdata/manuel/e_k0563/k0563_mag1/';
+addpath('/path/to/some/directory/code/CNN/');
+pathRaw.root = '/path/to/some/directory/e_k0563/k0563_mag1/';
 pathRaw.prefix = '100527_k0563_mag1';
-pathResult.root = ['/zdata/manuel/fermatResults/fwdPass/' date '/'];
+pathResult.root = ['/path/to/some/directory/fermatResults/fwdPass/' date '/'];
 pathResult.prefix = '100527_k0563_mag1';
 pathResult.folders = {'x' 'y' 'z'};
 datasetSize = [4608 5504 5760];
 
-cnet = loadSingleCNN(['/zdata/manuel/fermatResults/trainCNN/' dateString '/net' num2str(net, '%6.6u') '/']);
+cnet = loadSingleCNN(['/path/to/some/directory/fermatResults/trainCNN/' dateString '/net' num2str(net, '%6.6u') '/']);
 cnet.run.actvtTyp = @single;
 bigFwdPass(cnet, pathRaw, pathResult, datasetSize);

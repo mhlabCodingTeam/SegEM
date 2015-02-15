@@ -1,7 +1,7 @@
 function killJob( numbers )
 %killJob( jobIDsToKill )
 %   Kills jobs with same parameters as cnet
-load /zdata/manuel/fermatResults/activeJobs.mat;
+load /path/to/some/directory/fermatResults/activeJobs.mat;
 
 nets = fieldnames(jobs);
 jobIDs = cell(length(numbers),1);
@@ -23,7 +23,7 @@ for i = 1:length(jobIDs)
     jobs = rmfield(jobs, ['net' num2str(randNumber{i}, '%6.6u')]);
 end
 
-save('/zdata/manuel/fermatResults/activeJobs.mat', 'jobs');
+save('/path/to/some/directory/fermatResults/activeJobs.mat', 'jobs');
 
 end
 

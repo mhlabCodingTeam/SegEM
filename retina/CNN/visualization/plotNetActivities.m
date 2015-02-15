@@ -7,9 +7,9 @@ fields = fieldnames(struct);
 for i=1:length(fields)
     display(['Starting net ' num2str(i,'%i') ' out of ' num2str(length(fields), '%i')  ' in total.']);
     if nargin == 1
-        [cnet, ~] = loadSingleCNN(['/zdata/manuel/fermatResults/' struct.(fields{i}).date '/net' num2str(struct.(fields{i}).rand, '%6.6u') '/']);
+        [cnet, ~] = loadSingleCNN(['/path/to/some/directory/fermatResults/' struct.(fields{i}).date '/net' num2str(struct.(fields{i}).rand, '%6.6u') '/']);
     else
-        [cnet, ~] = loadSingleCNN(['/zdata/manuel/fermatResults/' struct.(fields{i}).date '/net' num2str(struct.(fields{i}).rand, '%6.6u') '/'], iter);
+        [cnet, ~] = loadSingleCNN(['/path/to/some/directory/fermatResults/' struct.(fields{i}).date '/net' num2str(struct.(fields{i}).rand, '%6.6u') '/'], iter);
     end
     % Determine region of fwdPass
     stackNr = 38; % 1 altes setting
@@ -39,7 +39,7 @@ for i=1:length(fields)
     [activity, ~] = cnet.fwdPass3D(currentRaw);
     
     if isempty(mask{1})
-        load('/zdata/manuel/e_k0563/vesicle/Masks/e_k0563_ribbon_0124b_vesicles_full_stack_mask.mat');
+        load('/path/to/some/directory/e_k0563/vesicle/Masks/e_k0563_ribbon_0124b_vesicles_full_stack_mask.mat');
         mask{1} = KLEE_savedStack(outputPatch{:});
         mask{1}(1,:,:) = [];
         mask{1}(:,1,:) = [];
@@ -67,10 +67,10 @@ for i=1:length(fields)
     set(gcf, 'PaperPosition', [0 0 10 15]);
     set(gcf, 'PaperSize', [10 15]);
     
-    if ~exist(['/zdata/manuel/sync/toP1-377/PDF/' struct.(fields{i}).date '/'], 'dir')
-        mkdir(['/zdata/manuel/sync/toP1-377/PDF/' struct.(fields{i}).date '/']);
+    if ~exist(['/path/to/some/directory/sync/toP1-377/PDF/' struct.(fields{i}).date '/'], 'dir')
+        mkdir(['/path/to/some/directory/sync/toP1-377/PDF/' struct.(fields{i}).date '/']);
     end
-    print('-dpdf', ['/zdata/manuel/sync/toP1-377/PDF/' struct.(fields{i}).date '/netAct' num2str(struct.(fields{i}).rand, '%6.6u') '.pdf']);
+    print('-dpdf', ['/path/to/some/directory/sync/toP1-377/PDF/' struct.(fields{i}).date '/netAct' num2str(struct.(fields{i}).rand, '%6.6u') '.pdf']);
     close all;
     
     % Plot final + target*mask + raw
@@ -144,10 +144,10 @@ for i=1:length(fields)
     set(gcf, 'PaperPosition', [0 0 10 10]);
     set(gcf, 'PaperSize', [10 10]);
     
-    if ~exist(['/zdata/manuel/sync/toP1-377/PDF/' struct.(fields{i}).date '/'], 'dir')
-        mkdir(['/zdata/manuel/sync/toP1-377/PDF/' struct.(fields{i}).date '/']);
+    if ~exist(['/path/to/some/directory/sync/toP1-377/PDF/' struct.(fields{i}).date '/'], 'dir')
+        mkdir(['/path/to/some/directory/sync/toP1-377/PDF/' struct.(fields{i}).date '/']);
     end
-    print('-dpdf', ['/zdata/manuel/sync/toP1-377/PDF/' struct.(fields{i}).date '/net' num2str(struct.(fields{i}).rand, '%6.6u') '.pdf']);
+    print('-dpdf', ['/path/to/some/directory/sync/toP1-377/PDF/' struct.(fields{i}).date '/net' num2str(struct.(fields{i}).rand, '%6.6u') '.pdf']);
     close all;
 end
 

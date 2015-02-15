@@ -34,7 +34,7 @@ for iid2=1:cnet.run.maxIterMini
         [target, mask] = cnet.masking(cnet, currentTrace);
         % Special treatment for vesicle run
         if isempty(mask{1})
-            load('/zdata/manuel/e_k0563/vesicle/Masks/e_k0563_ribbon_0124b_vesicles_full_stack_mask.mat');
+            load('/path/to/some/directory/e_k0563/vesicle/Masks/e_k0563_ribbon_0124b_vesicles_full_stack_mask.mat');
             mask{1} = KLEE_savedStack(outputPatch{:});
             mask{1}(1,:,:) = [];
             mask{1}(:,1,:) = [];
