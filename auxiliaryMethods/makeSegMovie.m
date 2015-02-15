@@ -14,7 +14,7 @@ cm = distinguishable_colors(length(unique(segmentation(:)))-1, [0 0 0; 1 1 1]);
 % Add black for bg
 cm = [0 0 0; cm];
 
-figure();
+figure('Resize', 'off');
 set(gcf,'NextPlot','replacechildren');
 set(gcf,'Renderer','OpenGL');
 if strcmp(computer('arch'), 'glnxa64')
@@ -22,7 +22,7 @@ if strcmp(computer('arch'), 'glnxa64')
 elseif strcmp(computer('arch'), 'PCWIN64')
     writerObj = VideoWriter(outputFile, 'MPEG-4');
 else
-    display('Please set up mex to run with your architecture and add here!')
+    error('Please set up video codex compatible with your architecture here!')
 end
 
 writerObj.FrameRate = 4;
@@ -36,7 +36,10 @@ for f=1:size(raw,3)
     himage = imshow(temp);
     set(himage, 'AlphaData', 0.2 );
     frame = getframe;
-    writeVideo(writerObj,frame);
+    if f == 1
+        sizeFrame = size(frame);
+    end
+    writeVideo(writerObj,frame(1:sizeFrame(1),1:sizeFrame(2));
 end
 close(writerObj);
 close all;
