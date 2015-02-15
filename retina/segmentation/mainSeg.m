@@ -44,12 +44,6 @@ for i=1:length(param.affMaps)
 end
 clear i;
 
-% Compile mex watershed
-% %Linux mex
-% mex CFLAGS="\$CFLAGS -U FORTIFY_SOURCE -std=c99" -outdir segmentation/ -largeArrayDims segmentation/watershit_3D.c;
-% %Windows mex (to comply with C99 standard C++ used)
-% mex -largeArrayDims -outdir segmentation/ segmentation/watershit_3D.cpp;
-
 % Account for weird KNOSSOS rescaling (due to misspecification of scale parameter in knossos.conf)
 % Usually not necessary, done for first minicube
 % skel = readKnossosNml([param.dataFolder param.skeletons]);

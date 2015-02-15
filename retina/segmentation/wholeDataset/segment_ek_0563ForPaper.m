@@ -35,7 +35,7 @@ for dir=1:length(folders)
     affReconRecon{dir} = uint16(round((N_LEVELS-1) .* (affReconRecon{dir}-mini)./(maxi-mini)));
 end
 marker = uint16(labelmatrix(bwconncomp(fgm1)));
-seg = watershit_3D(affReconRecon{1}, affReconRecon{2}, affReconRecon{3}, marker, N_LEVELS, N_LEVELS - N_LEVELS_BOUNDARY);
+seg = watershed_threeTimes3D(affReconRecon{1}, affReconRecon{2}, affReconRecon{3}, marker, N_LEVELS, N_LEVELS - N_LEVELS_BOUNDARY);
 writeKnossosCube([dir 'seg/'], '100527_k0563_seg', [xCP,yCP,zCP], seg, 'uint16');
 
 end
