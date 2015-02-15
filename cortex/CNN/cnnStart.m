@@ -9,10 +9,10 @@ clear settings;
 %% Fix metadata of stacks for use with new data location
 for i=1:length(stacks)
     stacks(i).targetFile = strrep(stacks(i).targetFile, ...
-        '/path/to/some/directory/data/cortex/20130919T033350/', stackFolder);
+        '/zdata/manuel/data/cortex/20130919T033350/', stackFolder);
     stacks(i).targetFile = strrep(stacks(i).targetFile, '/', filesep);
     stacks(i).stackFile = strrep(stacks(i).stackFile, ...
-        '/path/to/some/directory/data/cortex/20130919T033350/', stackFolder);
+        '/zdata/manuel/data/cortex/20130919T033350/', stackFolder);
     stacks(i).stackFile = strrep(stacks(i).stackFile, '/', filesep);
 end
 clear stackFolder i;
@@ -51,7 +51,7 @@ cnet.plotNetActivitiesFull(stacks);
 %% Load and visualize a trained CNN:
 load([dataDirectory filesep 'supplement' filesep 'extracted' filesep 'cortex - CNN20130516T204040_8_3.mat']);
 cnet.run.savingPath = strrep(cnet.run.savingPath, ...
-    '/path/to/some/directory/results/parameterSearch/20130516T204040/iter08/gpu03/', [outputDirectory filesep 'trainedCNN' filesep]);
+    '/zdata/manuel/results/parameterSearch/20130516T204040/iter08/gpu03/', [outputDirectory filesep 'trainedCNN' filesep]);
 if gpuDeviceCount > 1
     cnet.run.actvtClass = @gpuArray;
 else
