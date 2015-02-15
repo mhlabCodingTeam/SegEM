@@ -22,7 +22,7 @@ if strcmp(computer('arch'), 'glnxa64')
 elseif strcmp(computer('arch'), 'PCWIN64')
     writerObj = VideoWriter(outputFile, 'MPEG-4');
 else
-    display('Please set up mex to run with your architecture!')
+    display('Please set up mex to run with your architecture and add here!')
 end
 
 writerObj.FrameRate = 4;
