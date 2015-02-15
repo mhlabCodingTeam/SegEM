@@ -28,7 +28,7 @@ end
 codeDirectory = pwd;
 
 % Open relevant scripts for dataset/code version
-if strcmp(chosenDataset, 'Retina (ek0563)')
+if strcmp(chosenDataset, 'Retina (e_k0563)')
     run(['retina' filesep 'startup.m']);
 end
 if strcmp(chosenDataset, 'Cortex (2012_09_28_ex145_07x2)')

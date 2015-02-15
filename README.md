@@ -24,7 +24,7 @@ If you are not specifically interested in the retina dataset/code version or wan
 
 After settings have been completed, relevant scipts will open which can be executed from top to bottom using Ctrl+Enter and are opened in an order that should be most instructive to follow (e.g. start with top- or leftmost script).
 
-See “Cell Mode” in Matlab help for more information on using Ctrl + Enter for executing a cell (=between line starting with %%)
+See 'Cell Mode' in Matlab help for more information on using Ctrl + Enter for executing a cell (=between line starting with %%)
 
 ---
 
@@ -37,5 +37,9 @@ The most important parts of the code for CORTEX are (always including some visua
 
 ---
 
-The most important parts of the code for RETINA are:
-TO DO
+The most important parts of the code for RETINA are (No:
++ main: load training data, train a convolutional neuronal network, paralell network training
++ mainSeg: steps from classification result by CNN to segmentation (grid parameter search for watershed segmentation) including skeleton based split-merger metrics
++ visSeg: visualize a given segmentation, e.g. object chains, segMovies, errorMovies = detected merger errors etc.
++ skeletonBasedRetina: Use segmentation of whole dataset (provided) to use skeleton reconstructions for volume reconstructions or contact detection between cell pairs
+
