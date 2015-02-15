@@ -1,6 +1,6 @@
 function job = morphScanAndEval( param, nameAffMap, r)
 
-% Morphologische Reconstruction
+% Morphological Reconstruction
 a = load([param.dataFolder param.affSubfolder nameAffMap '.mat'], 'classification');
 r = param.r(r);
 if r ~= 0
