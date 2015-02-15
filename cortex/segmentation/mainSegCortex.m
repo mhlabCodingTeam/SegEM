@@ -2,6 +2,10 @@
 % this requires first 'cell' of wholeDatasetFwdPass.m has been executed
 % before
 
+if ~exist([outputDirectory filesep 'segOptCortex' filesep], 'dir')
+    mkdir([outputDirectory filesep 'segOptCortex' filesep]);
+end
+
 % copy dense skeletonizations to working directory
 copyfile([dataDirectory filesep 'supplement' filesep 'extracted' filesep 'cortex_test.nml'], ...
     [outputDirectory filesep 'segOptCortex' filesep]);
