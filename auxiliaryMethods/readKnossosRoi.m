@@ -15,8 +15,8 @@ function kl_roi = readKnossosRoi( kl_parfolder, kl_fileprefix, kl_bbox, classT, 
 %       CLASST: Optional! Standard version is unsigned int with 8 bits. For the
 %           precision of the values.
 %
-%   => readKnossosRoi( �E:\e_k0563\k0563_mag1', �100527_k0563_mag1�,
-%           [129 384; 129 384; 129 384], �uint8� )
+%   => readKnossosRoi( 'E:\e_k0563\k0563_mag1', '100527_k0563_mag1',
+%           [129 384; 129 384; 129 384], 'uint8' )
 %   
 
     if( nargin < 4 )

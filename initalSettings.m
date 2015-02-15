@@ -15,7 +15,7 @@ if strcmp(computer('arch'), 'glnxa64')
     % Linux mex
     mex CFLAGS="\$CFLAGS -U FORTIFY_SOURCE -std=c99" -largeArrayDims -outdir retina/segmentation/watershedBasedSeg retina/segmentation/watershedBasedSeg/watershed_threeTimes3D.c;
     mex -outdir auxiliaryMethods auxiliaryMethods/parseNml.c;
-elseif strcmp(computer('arch'), 'PCWIN64')
+elseif strcmp(computer('arch'), 'PCWIN64') || strcmp(computer('arch'), 'win64') % Matlab docu inconsitent
     % Windows mex
     mex -largeArrayDims -outdir retina\segmentation\watershedBasedSeg retina\segmentation\watershedBasedSeg\watershed_threeTimes3D.c;
     mex -outdir auxiliaryMethods auxiliaryMethods\parseNml.c;

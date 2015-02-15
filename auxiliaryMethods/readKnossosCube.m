@@ -13,7 +13,7 @@ function kl_cube = readKnossosCube( kl_parfolder, kl_fileprefix, kl_cubeCoord, c
 %       CLASST: Optional! Standard version is unsigned int with 8 bits. For the
 %           precision of the values.
 %
-%   => readKnossosCube( �E:\e_k0563\k_0563_mag1', �100527_k0563_mag1�, [21 30 150], �uint8� )
+%   => readKnossosCube( 'E:\e_k0563\k_0563_mag1', '100527_k0563_mag1', [21 30 150], 'uint8' )
 %
 
 if( nargin < 4 )
