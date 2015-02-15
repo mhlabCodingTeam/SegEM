@@ -17,11 +17,14 @@ Please execute initalSettings.m first, this will start a GUI to set needed infor
 
 ---
 
-Next start Matlab with the working directory set to the root folder of this code repositorium (!!) and run initalSettings.m
-This will prompt you to choose whether you want to work with retina or cortex (version of code and data)
-IMPORTNAT NOTE: So far only cortex is set up and tested, will remove this when retina is finished
+Next start Matlab with the working directory set to the root folder of this code repositorium or navigate there using matlab 'current folder' pane and run initalSettings.m.
 
-This will open relevant scipts which can be executed from top to bottom using Ctrl+Enter and are open in a sequential order that should be most instructive to follow (e.g. start with top- or leftmost script)
+This will prompt you to choose whether you want to work with retina or cortex (version of code and data).
+
+IMPORTNAT NOTE: Only cortex is set up and tested completly, will remove this when retina is finished.
+
+This will open relevant scipts which can be executed from top to bottom using Ctrl+Enter and are open in a sequential order that should be most instructive to follow (e.g. start with top- or leftmost script).
+
 See “Cell Mode” in Matlab help for more information on using Ctrl + Enter for executing a cell (=between line starting with %%)
 
 ---
