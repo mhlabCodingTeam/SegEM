@@ -45,7 +45,7 @@ for i=1:size(labelled_pixel,1)
         end
     end  
 end
-% Queues durcharbeiten
+% Work through Queues
 while sum(not(cellfun(@isempty,queues)))
     priority = find(~isempty(queues), 1, 'first');
     active_pixel = queues{priority,1}(1);
