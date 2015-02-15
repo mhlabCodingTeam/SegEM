@@ -39,7 +39,7 @@ for f=1:size(raw,3)
     if f == 1
         sizeFrame = size(frame);
     end
-    writeVideo(writerObj,frame(1:sizeFrame(1),1:sizeFrame(2));
+    writeVideo(writerObj,frame(1:sizeFrame(1),1:sizeFrame(2)));
 end
 close(writerObj);
 close all;
