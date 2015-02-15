@@ -42,11 +42,12 @@ miniSegmentation(p);
 %% Another example: Apply cortex classifier to Philip Laserstein's stack
 
 % Load old cortex CNN
-load('/home/mberning/fsHest/Data/berningm/20150205paper1submission//supplement/extracted/cortex - CNN20130516T204040_8_3.mat', 'cnet');
+load([dataDirectory filesep 'supplement' filesep 'extracted' filesep 'cortex - CNN20130516T204040_8_3.mat'], 'cnet');
 % Run on Matlan GPU, was jacket GPU before
 cnet.run.actvtClass = @single;
-% Where raw data is located
-stP.raw.root = '/home/mberning/Data/stackPL/color/1/';
+% Where raw data is located (no need to change to dataDirectory, will not
+% be included in submission)
+stP.raw.root = 'Z:\Data\berningm\stackPL\color\1\';
 stP.raw.prefix = '2015-02-05_st118_st118a_mag1';
 % Which region to classify
 bbox = [1501 1800; 1501 1800; 15 314];
@@ -87,7 +88,7 @@ axis equal; axis off;
 colormap('gray');
 
 %% segment (no grid serach performed du to no dense annotation, just tried some values)
-% probably step one could optimize easiest
+% probably step someone could optimize easiest
 segmentation = watershedSeg_v1_cortex( imcomplement(classification), {.35 50} );
 
 %% display images
