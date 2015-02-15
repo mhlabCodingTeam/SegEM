@@ -89,8 +89,8 @@ function pushbutton_OK_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_OK (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-assignin('base', 'dataDirectory', handles.edit_DataDirectory.String);
-assignin('base', 'outputDirectory', handles.edit_OutputDirectory.String);
+assignin('base', 'dataDirectory', [handles.edit_DataDirectory.String filesep]);
+assignin('base', 'outputDirectory', [handles.edit_OutputDirectory.String filesep]);
 assignin('base', 'jobManagerName', handles.listbox1.String{handles.listbox1.Value});
 assignin('base', 'chosenDataset', handles.uibuttongroup2.SelectedObject.String);
 delete(handles.output);
