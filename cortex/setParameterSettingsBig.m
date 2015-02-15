@@ -82,9 +82,9 @@ function [parameter, parameterTrain] = setParameterSettingsBig(dataFolder, saveF
     end
     
     % Save everything
-    pT = parameterTrain;
-    p = parameter;
-    save([parameter.saveFolder filesep 'allParameter.mat'], 'p', 'pT');
+%     pT = parameterTrain;
+%     p = parameter;
+%     save([parameter.saveFolder filesep 'allParameter.mat'], 'p', 'pT');
 
 end
 
