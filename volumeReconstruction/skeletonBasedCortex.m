@@ -12,4 +12,4 @@ providedSegmentationFolder = [dataDirectory filesep 'datasets' filesep '2012-09-
 galleryCortexStart(pBig, dataDirectory, outputDirectory, providedSegmentationFolder)
 
 %%
-contactDetectionRetinaStart(pBig, dataDirectory, outputDirectory)
+contactDetectionCortexStart(pBig, dataDirectory, outputDirectory)
