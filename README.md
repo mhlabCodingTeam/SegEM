@@ -33,7 +33,7 @@ The scripts are most conveniently executed using the cell mode in Matlab (pressi
 
 Use case 1: start with cnnStart.m (->cnnParameterSelection.m->mainSeg.m->wholeDatsetFwdPass.m->skeletonsToContacts.m); will all be opened in this order after setting directories in GUI
 
-Use case 2: start with skeletonsToContacts_legacy .m.m (other scripts only provided for purpose of documentation, will require some changes, e.g. changing folders manually, to run on local computer)
+Use case 2: start with skeletonsToContacts_legacy.m (other scripts only provided for purpose of documentation, will require some changes, e.g. changing folders manually, to run on local computer)
 
 ---
 
@@ -41,7 +41,7 @@ Brief description of most relevant segEM code files
 + cnnStart.m: load training data, train convolutional neuronal networks (parallel network training on multiple GPUs)
 + cnnParameterSelection.m: Automated hyperparameter selection and variation of learning rates for each CNN layer
 + mainSeg.m: steps from classification result by CNN to segmentation (grid parameter search for watershed segmentation) including skeleton based split-merger metrics
-+ wholeDatasetFwdPass.m: Apply trained CNN classifier (trained in step 1) and watershed segmentation steps (with parameters optimized in step 3?)
++ wholeDatasetFwdPass.m: Apply trained CNN classifier (trained in step 1) and watershed segmentation steps (with parameters optimized in step 3)
 + skeletonsToContacts.m: Volume reconstruction and contact detection based on skeleton reconstructions. This requires a volume segmentation (either via step 4 or via the segmentations provided at segEM.io ) 
 
 ---
