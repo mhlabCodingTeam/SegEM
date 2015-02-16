@@ -37,7 +37,7 @@ The most important parts of the code for CORTEX are (always including some visua
 
 ---
 
-The most important parts of the code for RETINA are (No:
+The most important parts of the code for RETINA are:
 + main: load training data, train a convolutional neuronal network, paralell network training
 + mainSeg: steps from classification result by CNN to segmentation (grid parameter search for watershed segmentation) including skeleton based split-merger metrics
 + visSeg: visualize a given segmentation, e.g. object chains, segMovies, errorMovies = detected merger errors etc.
