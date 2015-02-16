@@ -7,9 +7,9 @@ addpath(genpath([codeDirectory filesep 'volumeReconstruction']));
 cortexSubfolder = [codeDirectory filesep 'cortex' filesep];
 open([cortexSubfolder 'CNN' filesep 'cnnStart.m']);
 open([cortexSubfolder 'CNN' filesep 'evolution' filesep 'cnnParameterSelection.m']);
-open([cortexSubfolder 'segmentation' filesep 'mainSegCortex.m']);
+open([cortexSubfolder 'segmentation' filesep 'mainSeg.m']);
 open([cortexSubfolder 'wholeDataset' filesep 'wholeDatasetFwdPass.m']);
-open([codeDirectory filesep 'volumeReconstruction' filesep 'skeletonBasedCortex.m']);
+open([codeDirectory filesep 'volumeReconstruction' filesep 'skeletonsToContacts.m']);
 clear cortexSubfolder;
 
 % create parameter settings for cortex for easier access to data/storage

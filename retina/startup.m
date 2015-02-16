@@ -4,7 +4,7 @@ addpath(genpath([codeDirectory filesep 'auxiliaryMethods']));
 addpath(genpath([codeDirectory filesep 'volumeReconstruction']));
 
 % open relevant scripts
-open('CNN/main.m');
-open('segmentation/mainSeg.m');
-open('segmentation/visualization/visSeg.m');
-open('../volumeReconstruction/skeletonBasedRetina.m');
+open('CNN/main_legacy.m');
+open('segmentation/mainSeg_legacy.m');
+open('segmentation/visualization/visSeg_legacy.m');
+open('../volumeReconstruction/skeletonsToContacts_legacy.m');
