@@ -50,8 +50,6 @@ param.makeErrorMovies = true;
 param.plotObjSizeHist = true;
 param.objSizeCutoff = 100000;
 param.plotObjChains = true;
-param.plotSynRate = true;
-param.makeErrorStacks = true;
 
 %  Choose affinity maps for training and test data
 paramTest = param;
@@ -95,7 +93,7 @@ writeNml([paramTest.dataFolder paramTest.skeletons 'local'], paramTest.skel);
 %% Save parameter file to disk
 save([param.dataFolder param.outputSubfolder 'parameter.mat'], 'param', 'paramTest');
 
-%% Main cell for parameter tuning training region
+%% Main cell for parameter tuning training region, takes ~1.5h w. 4 workers on laptop
 % This will do morphological reconstruction & watershed segmenation and
 % calculate skeleton-based split-merger metric with parameters set above
 % Currently paralell over first parameter of segmentation function, usually

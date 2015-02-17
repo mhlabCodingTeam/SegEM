@@ -22,8 +22,8 @@ save([param.dataFolder param.outputSubfolder nameAffMap filesep 'MorphRecon' num
 
 % scan and eval
 paramCell = getParamCombinations(param.algo);
-parfor i=1:size(paramCell,2)
-    for j=1:length(paramCell{i})
+for i=1:size(paramCell,2)
+    parfor j=1:length(paramCell{i})
         %scan
         fun = paramCell{i}{j}{1};
         segmentation = fun(affReconRecon,paramCell{i}{j}{2}(:));

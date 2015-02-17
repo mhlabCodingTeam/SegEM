@@ -1,46 +1,19 @@
 %% Plot everything (including movies) for a specific segmentation
-map = 4;
-algo = 2;
-r = 1;
-par1 = 1;
-par2 = 1;
-visualizeSingle(param, map, algo, r, par1, par2);
 
-%% KLEE: Show segmentation
+%% Plot for which ROI index, see: param.affMaps(index)
 map = 1;
+param.affMaps(map)
+% which algorothm to use, see param.algo
 algo = 1;
+param.algo(algo).fun
+% which radius to use, index to param.r(r)
 r = 1;
-par1 = 3;
-par2 = 2;
-load([param.dataFolder param.affSubfolder param.affMaps(map).name '.mat'], 'raw');
-load([param.dataFolder param.outputSubfolder param.affMaps(map).name '/seg' num2str(r) '-' num2str(algo) '.mat']);
-addpath('KLEE');
-KLEE_v4('stack', raw, 'stack_2', v{par1,par2});
+param.r(r)
 
-%% KLEE: Show morhological opening:
-map = 1;
-r = 2;
-load([param.dataFolder param.affSubfolder param.affMaps(map).name '.mat']);
-load([param.dataFolder param.outputSubfolder param.affMaps(map).name '/MorphRecon' num2str(r) '.mat']);
-%% Add path to KLEE repo from github
-addpath('/some/directory/');
-KLEE_v4('stack', aff, 'stack_2', v, 'stack_3', raw);
+%% 
+paramCell = getParamCombinations(param.algo);
+par = 10;
+paramCell{algo}{par}{2};
 
-%% KLEE: Show errors of a segmentation (see makeErrorStacks.m)
-map = 4;
-algo = 2;
-r = 1;
-par1 = 1;
-par2 = 1;
-error = 1;
-param.subfolder = [param.affMaps(map).name '_' num2str(algo) '_' num2str(param.r(r)) '_' num2str(param.pR{map,algo}{1}(par1), '%4.4f') '_' num2str(param.pR{map,algo}{2}(par2), '%4.4f') '/'];
-load([param.dataFolder param.figureSubfolder param.subfolder 'errorStacks' num2str(error, '%2.2i') '.mat']);
-%% Add path to KLEE repo from github
-addpath('/some/directory/');
-KLEE_v4('stack', raw, 'stack_2', obj, 'stack_3', skel);
-
-a = skel == 2 & obj ~=0;
-coord = ind2sub(size(a), find(a));
-
-%% Remove KLEE path (as it shadows certain MATLAB functions used above when in path)
-rmpath('/some/directory/');
+%%
+visualizeSingle(param, map, algo, r, par);

@@ -1,4 +1,4 @@
-function makeSkeletonMovies( param, eval, segmentation, raw, par1, par2)
+function makeErrorMoviesP( param, eval, segmentation, raw, par1, par2)
 
 colors = {'or' 'og' 'ob' 'oy' 'oc' 'om'};
 
