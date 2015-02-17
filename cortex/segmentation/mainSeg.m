@@ -110,7 +110,7 @@ end
 delete(pp);
 
 %% Overview of performance of different segmentations (training region only)
-visualizeOverview_3(param);
+visualizeOverview(param);
 
 %% Main cell for testing later (otherwise same as above)
 pp = parpool(jobManagerName);
@@ -136,4 +136,4 @@ skeletonStatistics([paramTest.dataFolder filesep]);
 %% Visualize training vs. test set comparison on subsampled skeletons
 param.skel = skel{1};
 paramTest.skel = skel{2};
-visualizeOverview_6cortex(param,paramTest);
+visualizeOverviewComparison(param,paramTest);
