@@ -11,6 +11,7 @@ There are two main use cases:
 
 Prerequisites:
 ---------
+
 + The Matlab jobmanager has to be operational. If no compute cluster with a Matlab jobmanager is available, the jobmanager 'local' will usually work by default.
 + The Matlab-mex compiler has to be configured. This can be done done by typing “mex -setup” in command line or the Matlab command prompt. In case your system does not have a compiler installed please follow the instructions by Mathworks. This is required to compile some of the routines for the user’s computer.
 
@@ -31,9 +32,11 @@ Execute initalSettings.m and provide the requested information in the GUI (alter
 Press “OK”. Then, the relevant scripts will be opened in the Matlab editor. 
 
 ---
+
 The scripts are conveniently executed using the cell mode in Matlab (pressing Ctrl+Enter executes the current script section; see “cell mode” help in Matlab). 
 
 For use case 1: start with cnnStart.m, then proceed to cnnParameterSelection.m, mainSeg.m, wholeDatsetFwdPass.m and skeletonsToContacts.m; these scripts will be opened in the matlab editor automatically 
+
 For use case 2: start with skeletonsToContacts.m. When working with the retina dataset ek563, use legacy version skeletonsToContacts_legacy.m, instead.
 
 ---
