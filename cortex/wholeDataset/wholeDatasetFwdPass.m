@@ -1,24 +1,37 @@
 %% Classification of training regions
 minicubeFwdPass(pT);
 
+%% Wait for job to finish 
+jm = parcluster('local');
+% Look at jobmanager
+jm
+% Look at jobs on specific jobmanager
+jm(1).Jobs
+% Look at tasks in specific job on specific jobmanager
+jm(1).Jobs(1).Tasks
+% If one wants to automate waiting, simply do (waits until Jobs(1) on jm(1) changes state to finished):
+wait(jm(1).Jobs(1), 'finished')
+
+%%
 % Create directory for segmentation parameter search input (CNN
 % classification results)
 if ~exist([outputDirectory filesep 'segOptCortex' filesep 'aff' filesep], 'dir')
     mkdir([outputDirectory filesep 'segOptCortex' filesep 'aff' filesep]);
 end
 
-% Save for mainSegCortex (raw and classification data both):
+% Save for mainSegCortex (raw and classification data both, dense annotation region 1):
 raw = readKnossosRoi(pT.raw.root, pT.raw.prefix, ...
     pT.local(1).bboxSmall, 'uint8', '', 'raw');
 classification = readKnossosRoi(pT.local(1).class.root, pT.local(1).class.prefix, ...
     pT.local(1).bboxSmall, 'single', '', 'raw');
+save([outputDirectory filesep 'segOptCortex' filesep 'aff' filesep 'cortex_region_1.mat'], 'raw', 'classification');
 
-save([dataDirectory filesep 'segOptCortex' filesep 'aff' filesep 'cortex_region_1.mat'], 'raw', 'classification');
+% Save for mainSegCortex (raw and classification data both, dense annotation region 2):
 raw = readKnossosRoi(pT.raw.root, pT.raw.prefix, ...
     pT.local(2).bboxSmall, 'uint8', '', 'raw');
 classification = readKnossosRoi(pT.local(2).class.root, pT.local(2).class.prefix, ...
     pT.local(2).bboxSmall, 'single', '', 'raw');
-save([dataDirectory filesep 'segOptCortex' filesep 'aff' filesep 'cortex_region_2.mat'], 'raw', 'classification');
+save([outputDirectory filesep 'segOptCortex' filesep 'aff' filesep 'cortex_region_2.mat'], 'raw', 'classification');
 
 %% Example for looking at classification results
 figure;

@@ -1,6 +1,6 @@
 %% Example usage of parameter grid search for segmentation parameters
 % this requires first 'cell' of wholeDatasetFwdPass.m has been executed
-% before
+% before (performs classification on densly skeletonized regions)
 
 if ~exist([outputDirectory filesep 'segOptCortex' filesep], 'dir')
     mkdir([outputDirectory filesep 'segOptCortex' filesep]);
@@ -37,9 +37,9 @@ clear i;
 param.r = 0; % Radii for Morphological Reconstruction
 param.algo(1).fun = @(seg,pars) watershedSeg_v1_cortex(seg, pars(:));
 %param.algo(1).par = {0.02:0.02:0.7 0:50:100};
-param.algo(1).par = {0.2:0.1:0.9 [0 50]};
+param.algo(1).par = {0.2:0.1:0.8 [10 50]};
 param.algo(2).fun = @(seg,pars) watershedSeg_v2_cortex(seg, pars(:));
-param.algo(2).par = {0.2:0.1:0.9 [0 50]};
+param.algo(2).par = {0.2:0.1:0.8 [10 50]};
 
 % Set parameter for evaluation
 param.nodeThres = 1; % Number of nodes within object that count as connection
@@ -130,7 +130,7 @@ delete(pp);
 skel{1} = param.skel;
 skel{2} = paramTest.skel;
 skel = equalizeSkeletons(skel);
-% save and output statistics to text file
+% save equalized skeletons and output statistics to text file
 writeNml([param.dataFolder filesep param.skeletons 'localsubsampled'], skel{1});
 writeNml([paramTest.dataFolder filesep paramTest.skeletons 'localsubsampled'], skel{2});
 skeletonStatistics([paramTest.dataFolder filesep]);
