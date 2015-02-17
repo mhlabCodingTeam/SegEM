@@ -13,27 +13,27 @@ load([param.dataFolder param.affSubfolder param.affMaps(map).name '.mat']);
 % output subfolder (not sure what I thought back then, not important, must
 % be unique so visualizeSingle can be used for multiple segmentations in
 % parallel
-outputFolder = [param.dataFolder param.figureSubfolder param.affMaps(map).name '-' num2str(param.r(r)) '-' num2str(algo)  '-' num2str(par, '%.3i') filesep];
-if ~exist(outputFolder, 'dir');
-    mkdir(outputFolder);
+param.outputFolder = [param.dataFolder param.figureSubfolder param.affMaps(map).name '-' num2str(param.r(r)) '-' num2str(algo)  '-' num2str(par, '%.3i') filesep];
+if ~exist(param.outputFolder, 'dir');
+    mkdir(param.outputFolder);
 end
 
 if param.makeSegMovies
-     makeSegMovie( b.v, raw, [outputFolder 'segVideo.avi'] );
+    makeSegMovie( b.v, raw, [param.outputFolder 'segVideo.avi'] );
 end
 
 if param.makeErrorMovies
-     makeErrorMoviesP( param, a.v, b.v, raw, par);
+	makeErrorMoviesP( param, a.v, b.v, raw);
 end
 
 if param.plotObjSizeHist
-	visualizeObjHistP( param, a.v.general, b.v, par);
+	visualizeObjHistP( param, a.v.general, b.v);
 end
 
 if param.plotObjChains
-	visualizeObjectChainsP_merger(param, a.v, b.v, param.skel, par);
+	visualizeObjectChainsP_merger(param, a.v, b.v, param.skel);
 	visualizeObjectChainsP_show(param, a.v, b.v, param.skel);
-    visualizeObjectChainsP_leftout(param, a.v, b.v, param.skel, par);
+	visualizeObjectChainsP_leftout(param, a.v, b.v, param.skel);
 end
 
 toc

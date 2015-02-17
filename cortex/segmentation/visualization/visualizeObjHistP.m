@@ -3,12 +3,12 @@ function visualizeObjHistP( param, general, segmentation, par1, par2)
 %   Detailed explanation goes here
 
 figure('Visible', 'off');
-sizeObj = hist(single(segmentation{par1, par2}(:)),1:general(par1,par2).maxNrObjects);
+sizeObj = hist(single(segmentation(:)),1:general.maxNrObjects);
 sizeObj(sizeObj > param.objSizeCutoff) = param.objSizeCutoff;
 hist(single(sizeObj), 250:500:(param.objSizeCutoff - 250));
 xlabel('Object Size [voxel]');
 ylabel('# Objects');
-saveas(gcf, [param.dataFolder param.figureSubfolder param.subfolder '/objHist.pdf']);
+saveas(gcf, [param.outputFolder 'objHist.pdf']);
 close all;
 
 end

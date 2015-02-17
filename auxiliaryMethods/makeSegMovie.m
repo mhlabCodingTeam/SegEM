@@ -20,7 +20,7 @@ set(gcf,'Renderer','OpenGL');
 if strcmp(computer('arch'), 'glnxa64')
     writerObj = VideoWriter(outputFile, 'Motion JPEG AVI');
 elseif strcmp(computer('arch'), 'PCWIN64') || strcmp(computer('arch'), 'win64')
-    writerObj = VideoWriter(outputFile, 'Uncompressed AVI');
+    writerObj = VideoWriter(outputFile);
 else
     error('Please set up video codex compatible with your architecture here!')
 end

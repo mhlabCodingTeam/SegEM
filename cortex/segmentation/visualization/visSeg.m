@@ -15,5 +15,5 @@ paramCell = getParamCombinations(param.algo);
 par = 10;
 paramCell{algo}{par}{2};
 
-%%
+%% Might generate large amount of output data (e.g. one video for each merger)
 visualizeSingle(param, map, algo, r, par);
