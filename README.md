@@ -33,7 +33,8 @@ The scripts are most conveniently executed using the cell mode in Matlab (pressi
 
 Use case 1: start with cnnStart.m, then proceed to cnnParameterSelection.m, mainSeg.m, wholeDatsetFwdPass.m and skeletonsToContacts.m; these scripts will be opened in the matlab editor automatically (s. above)
 
-Use case 2: start with skeletonsToContacts.m. When working with the retina dataset ek563, use legacy version skeletonsToContacts_legacy.m, instead. 
+Use case 2: start with skeletonsToContacts.m. When working with the retina dataset ek563, use legacy version skeletonsToContacts_legacy.m, instead.
+
 ---
 
 Brief description of most relevant SegEM code files
