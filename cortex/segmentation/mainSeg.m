@@ -36,8 +36,8 @@ clear i;
 % Set parameter for scan
 param.r = 0; % Radii for Morphological Reconstruction
 param.algo(1).fun = @(seg,pars) watershedSeg_v1_cortex(seg, pars(:));
-%param.algo(1).par = {0.02:0.02:0.7 0:50:100};
-param.algo(1).par = {0.2:0.1:0.8 [10 50]};
+param.algo(1).par = {0.02:0.02:0.7 0:50:100};
+%param.algo(1).par = {0.2:0.1:0.8 [10 50]};
 param.algo(2).fun = @(seg,pars) watershedSeg_v2_cortex(seg, pars(:));
 param.algo(2).par = {0.2:0.1:0.8 [10 50]};
 
@@ -127,7 +127,7 @@ delete(pp);
 %% Equalize inter-node-distance in skeletons for better/fairer comparison
 skel{1} = param.skel;
 skel{2} = paramTest.skel;
-skel = equalizeSkeletons(skel);
+skel = equalizeSkeletons(skel);e
 % save equalized skeletons and output statistics to text file
 writeNml([param.dataFolder filesep param.skeletons 'localsubsampled'], skel{1});
 writeNml([paramTest.dataFolder filesep paramTest.skeletons 'localsubsampled'], skel{2});

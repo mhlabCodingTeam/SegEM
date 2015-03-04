@@ -9,7 +9,7 @@ display('Overview Training vs. Test Comparison');
 figure('position', [1 1 1600 785]);
 hold on;
 [a, b, c] = plotParam(param, [0 1 0]);
-[d, e, f] = plotParam(paramTest, [1 0 0]);
+%[d, e, f] = plotParam(paramTest, [1 0 0]);
 xlabel('average distance between merger [nm]');
 ylabel('average distance between splits [nm]');
 zlabel('# objects');
@@ -18,7 +18,7 @@ set(gca, 'YScale', 'log');
 grid on;
 legend([a b c d e f], 'training node threshold 1', 'training node threshold 2', 'training node threshold 3' ...
     , 'test node threshold 1', 'test node threshold 2', 'test node threshold 3');
-saveas(gcf, [param.dataFolder param.figureSubfolder '/overviewComparison.fig']);
+saveas(gcf, [param.dataFolder param.figureSubfolder filesep 'overviewComparison.fig']);
 
 function [u, v, w] = plotParam(param, color)
     marker = {'+' 'o' 'x'};
