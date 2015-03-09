@@ -19,7 +19,7 @@ for map=1:size(param.affMaps,1)
             for par=1:length(paramCell{algo})
                 a = load([param.dataFolder param.outputSubfolder param.affMaps(map).name filesep 'evaluation' num2str(param.r(r)) '-' num2str(algo) '-' num2str(par) '.mat']);
                 x(par) = param.totalPathLength./max(a.v.merge.sum,1);
-                y(par) = param.totalPathLength/a.v.split.sum;
+                y(par) = param.totalPathLength/max(a.v.split.sum,1);
                 z(par) = a.v.general.maxNrObjects;
             end
             plot3(x, y, z, marker{mod(map,13) + 1}, 'Color', cm(algo,:), 'MarkerSize', markerSize(r));
@@ -51,7 +51,7 @@ for map=1:size(param.affMaps,1)
             for par = 1:length(paramCell{algo})
                 a = load([param.dataFolder param.outputSubfolder param.affMaps(map).name filesep 'evaluation' num2str(param.r(r)) '-' num2str(algo) '-' num2str(par) '.mat']);
                 % markers: 
-                plot3(param.totalPathLength/max(a.v.merge.sum,1), param.totalPathLength/a.v.split.sum, a.v.general.maxNrObjects, marker{mod(floor(par./length(paramCell{algo}{par}{2})),13) + 1}, 'MarkerEdgeColor', cm(algo,:), 'MarkerSize', markerSize(r));
+                plot3(param.totalPathLength/max(a.v.merge.sum,1), param.totalPathLength/max(a.v.split.sum,1), a.v.general.maxNrObjects, marker{mod(floor(par./length(paramCell{algo}{par}{2})),13) + 1}, 'MarkerEdgeColor', cm(algo,:), 'MarkerSize', markerSize(r));
                 hold on;
                 la{sub2ind([length(paramCell{algo}) length(param.r)],par,r)} = [num2str(param.r(r), '%i') '-' printParams(paramCell{algo}{par}{2})];
             end
