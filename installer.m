@@ -92,7 +92,7 @@ function pushbutton_OK_Callback(hObject, eventdata, handles)
 assignin('base', 'dataDirectory', [handles.edit_DataDirectory.String filesep]);
 assignin('base', 'outputDirectory', [handles.edit_OutputDirectory.String filesep]);
 assignin('base', 'jobManagerName', handles.listbox1.String{handles.listbox1.Value});
-assignin('base', 'chosenDataset', handles.uibuttongroup2.SelectedObject.String);
+assignin('base', 'chosenCodebase', handles.uibuttongroup2.SelectedObject.String);
 delete(handles.output);
 
 % --- Executes on button press in pushbutton_DataDirectory.
