@@ -6,14 +6,6 @@ if ~exist([outputDirectory filesep 'segOptCortex' filesep], 'dir')
     mkdir([outputDirectory filesep 'segOptCortex' filesep]);
 end
 
-% copy dense skeletonizations to working directory
-copyfile([dataDirectory filesep 'supplement' filesep 'extracted' filesep 'cortex_test.nml'], ...
-    [outputDirectory filesep 'segOptCortex' filesep]);
-copyfile([dataDirectory filesep 'supplement' filesep 'extracted' filesep 'cortex_training.nml'], ...
-    [outputDirectory filesep 'segOptCortex' filesep]);
-
-% Parameter settings
-
 % Folder structure 
 param.dataFolder = [outputDirectory filesep 'segOptCortex' filesep];
 param.affSubfolder = ['aff' filesep];
@@ -36,10 +28,10 @@ clear i;
 % Set parameter for scan
 param.r = 0; % Radii for Morphological Reconstruction
 param.algo(1).fun = @(seg,pars) watershedSeg_v1_cortex(seg, pars(:));
-param.algo(1).par = {0.02:0.02:0.7 0:50:100};
-%param.algo(1).par = {0.2:0.1:0.8 [10 50]};
+%param.algo(1).par = {0.02:0.02:0.7 0:50:100};
+param.algo(1).par = {0.2:0.1:0.8 [10 50]};
 param.algo(2).fun = @(seg,pars) watershedSeg_v2_cortex(seg, pars(:));
-param.algo(2).par = {0.2:0.1:0.8 [10 50]};
+param.algo(2).par = {0.2:0.1:0.8 0:50:100};
 
 % Set parameter for evaluation
 param.nodeThres = 1; % Number of nodes within object that count as connection
@@ -56,39 +48,20 @@ paramTest = param;
 param.affMaps(2) = []; % only region 1 for training regions
 paramTest.affMaps(1) = []; %  region 2 for testing
 
-%% Read skeleton for training (and do preprocessing, e.g. create local version clipped to bbox)
-param.skeletons = 'cortex_training.nml'; % Skeleton file for segmentation evaluation
-param.skel = parseNml([param.dataFolder param.skeletons]);
-param.skel = removeEmptySkeletons(param.skel);
-% Switch to coordinates of small subcube (offset has to be inital voxel of
-% bbox - [1 1 1] due to one index of matlab (another [1 1 1] if tracing was done in oxalis)
-param.skel = switchToLocalCoords_v2(param.skel, [4097 4481 2250] - [1 1 1]);
-% Remove all nodes outside small subcube
-param.skel = correctSkeletonsToBBox_v2(param.skel, [640 768 201]);
-% Calculate total path length of the skeleton within this box
-param.totalPathLength = getPathLength(param.skel);
-% Write skeleton video for control of training data
-load([param.dataFolder param.affSubfolder param.affMaps(1).name '.mat'], 'raw');
-makeSkeletonMovies(param, normalizeStack(raw));
-% Write local version of skeleton
-writeNml([param.dataFolder param.skeletons 'local'], param.skel);
+% copy dense skeletonizations to working directory
+% see [SegEM]/cortex/segmentation/skeletonPreperations for preprocessing on
+% skeletons (transform to local coordinates, limit to bounding box, remove
+% glia and other non-wanted annotations)
+copyfile([outputDirectory filesep 'cortex_test_local_subsampled.nml'], ...
+    [outputDirectory filesep 'segOptCortex' filesep]);
+copyfile([outputDirectory filesep 'cortex_training_local_subsampled.nml'], ...
+    [outputDirectory filesep 'segOptCortex' filesep]);
 
-%% Read skeleton for testing (and do preprocessing, e.g. create local version clipped to bbox)
-paramTest.skeletons = 'cortex_test.nml'; % Skeleton file for segmentation evaluation
-paramTest.skel = parseNml([paramTest.dataFolder paramTest.skeletons]);
-paramTest.skel = removeEmptySkeletons(paramTest.skel);
-% Switch to coordinates of small subcube (offset has to be inital voxel of
-% bbox - [1 1 1] due to one index of matlab (another [1 1 1] if tracing was done in oxalis)
-paramTest.skel = switchToLocalCoords_v2(paramTest.skel, [1417 4739 890] - [1 1 1]);
-% Remove all nodes outside small subcube
-paramTest.skel = correctSkeletonsToBBox_v2(paramTest.skel, [300 300 300]);
-% Calculate total path length of the skeleton within this box
+% Load skeletons for split-merger evaluation
+param.skel = parseNml([outputDirectory filesep 'segOptCortex' filesep 'cortex_training_local_subsampled.nml']);
+param.totalPathLength = getPathLength(param.skel);
+paramTest.skel = parseNml([outputDirectory filesep 'segOptCortex' filesep 'cortex_test_local_subsampled.nml']);
 paramTest.totalPathLength = getPathLength(paramTest.skel);
-% Write skeleton video for control of testing data
-load([paramTest.dataFolder paramTest.affSubfolder paramTest.affMaps(1).name '.mat'], 'raw');
-makeSkeletonMovies(paramTest, normalizeStack(raw));
-% Write local version of skeleton
-writeNml([paramTest.dataFolder paramTest.skeletons 'local'], paramTest.skel);
 
 %% Save parameter file to disk
 save([param.dataFolder param.outputSubfolder 'parameter.mat'], 'param', 'paramTest');
@@ -124,16 +97,5 @@ for map=1:length(paramTest.affMaps)
 end
 delete(pp);
 
-%% Equalize inter-node-distance in skeletons for better/fairer comparison
-skel{1} = param.skel;
-skel{2} = paramTest.skel;
-skel = equalizeSkeletons(skel);e
-% save equalized skeletons and output statistics to text file
-writeNml([param.dataFolder filesep param.skeletons 'localsubsampled'], skel{1});
-writeNml([paramTest.dataFolder filesep paramTest.skeletons 'localsubsampled'], skel{2});
-skeletonStatistics([paramTest.dataFolder filesep]);
-
 %% Visualize training vs. test set comparison on subsampled skeletons
-param.skel = skel{1};
-paramTest.skel = skel{2};
 visualizeOverviewComparison(param,paramTest);
