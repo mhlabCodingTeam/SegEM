@@ -33,8 +33,9 @@ for f=1:size(raw,3)
     imshow(raw(:,:,f), [0 255]);
     hold on;
     temp = label2rgb(segmentation(:,:,f), cm);
-    himage = imshow(temp);
-    set(himage, 'AlphaData', 0.2 );
+    himage = imagesc(temp);
+    caxis([-100 355]);
+    set(himage, 'AlphaData', 0.05 );
     frame = getframe;
     if f == 1
         sizeFrame = size(frame);

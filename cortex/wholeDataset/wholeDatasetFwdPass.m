@@ -60,17 +60,17 @@ load([dataDirectory filesep 'supplement' filesep 'extracted' filesep 'cortex - C
 cnet.run.actvtClass = @single;
 % Where raw data is located (no need to change to dataDirectory, will not
 % be included in submission)
-stP.raw.root = 'Z:\Data\berningm\stackPL\color\1\';
+stP.raw.root = '/home/mberning/Data/stackPL/color/1/';
 stP.raw.prefix = '2015-02-05_st118_st118a_mag1';
 % Which region to classify
-bbox = [1501 1800; 1501 1800; 15 314];
+bbox = [1301 1900; 1301 2100; 115 314];
 % Load data with right border for cnet
 bboxWithBorder(:,1) = bbox(:,1) - ceil(cnet.randOfConvn'/2);
 bboxWithBorder(:,2) = bbox(:,2) + ceil(cnet.randOfConvn'/2);
 raw = readKnossosRoi(stP.raw.root, stP.raw.prefix, bboxWithBorder);
 
 %% Make sure raw data is actually read
-implay(raw);
+% implay(raw);
 
 %% Normalize data
 if cnet.normalize
@@ -84,42 +84,138 @@ end
 classification = onlyFwdPass3D(cnet, raw);
 
 %% Look at result
-implay(classification)
+% implay(classification)
 
 %% display images
-z = 100;
-figure;
-subplot(1,2,1);
-% Weird indexing necessary due to border of CNN classification
-imagesc(raw(1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
-    1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
-    z+cnet.randOfConvn(3)/2));
-axis equal; axis off;
-subplot(1,2,2);
-imagesc(classification(:,:,z));
-axis equal; axis off;
-colormap('gray');
+% z = 100;
+% figure;
+% subplot(1,2,1);
+% % Weird indexing necessary due to border of CNN classification
+% imagesc(raw(1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
+%     1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
+%     z+cnet.randOfConvn(3)/2));
+% axis equal; axis off;
+% subplot(1,2,2);
+% imagesc(classification(:,:,z));
+% axis equal; axis off;
+% colormap('gray');
 
 %% segment (no grid serach performed du to no dense annotation, just tried some values)
 % probably step someone could optimize easiest
 segmentation = watershedSeg_v1_cortex( imcomplement(classification), {.35 50} );
 
 %% display images
-z = 100;
-figure;
-subplot(1,2,1);
-% Weird indexing necessary due to border of CNN classification
-imagesc(raw(1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
-    1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
-    z+cnet.randOfConvn(3)/2));
-axis equal; axis off;
-subplot(1,2,2);
-imagesc(segmentation(:,:,z));
-axis equal; axis off;
-colormap('gray');
+% z = 100;
+% figure;
+% subplot(1,2,1);
+% % Weird indexing necessary due to border of CNN classification
+% imagesc(raw(1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
+%     1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
+%     z+cnet.randOfConvn(3)/2));
+% axis equal; axis off;
+% subplot(1,2,2);
+% imagesc(segmentation(:,:,z));
+% axis equal; axis off;
+% colormap('gray');
+
+%% save PLs data
+save('/home/mberning/Desktop/PL_seg.mat');
 
 %% Make video
 raw = readKnossosRoi(stP.raw.root, stP.raw.prefix, bboxWithBorder);
 makeSegMovie(segmentation,raw(1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
     1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
     1+cnet.randOfConvn(3)/2:end-cnet.randOfConvn(3)/2),[outputDirectory filesep 'PL_segmentation.avi']);
+
+%% Another example: Apply cortex classifier to Eliot Dow's stack
+
+% Load old cortex CNN
+load([dataDirectory filesep 'supplement' filesep 'extracted' filesep 'cortex - CNN20130516T204040_8_3.mat'], 'cnet');
+% Run on Matlan GPU, was jacket GPU before
+cnet.run.actvtClass = @single;
+% Where raw data is located (no need to change to dataDirectory, will not
+% be included in submission)
+stP.raw.root = '/home/mberning/localStorage/data/stackED/1/';
+stP.raw.prefix = 'No14-020515_mag1';
+% Which region to classify
+bbox = [4500 5500; 6700 7300; 1000 1200];
+
+coordinate{1} = [4489; 6591; 517];
+coordinate{2} = [6144; 7497; 754];
+coordinate{3} = [4711; 5640; 685];
+coordinate{4} = [6426; 6727; 770];
+
+for c=1:length(coordinate)
+    % Load data with right border for cnet
+    bbox = [coordinate{c} - [300; 400; 100] coordinate{c} + [300; 400; 100]];
+    bboxWithBorder(:,1) = bbox(:,1) - ceil(cnet.randOfConvn'/2);
+    bboxWithBorder(:,2) = bbox(:,2) + ceil(cnet.randOfConvn'/2);
+    raw = readKnossosRoi(stP.raw.root, stP.raw.prefix, bboxWithBorder);
+
+%     % Make sure raw data is actually read
+%     implay(raw);
+
+    % Normalize data
+    if cnet.normalize
+        raw = single(raw) - 116;
+        raw = raw ./ 60;
+    else
+        raw = single(raw);
+    end
+
+    % Apply CNN
+    classification = onlyFwdPass3D(cnet, raw);
+
+%     % Look at result
+%     implay(classification)
+
+%     % display images
+%     z = 200;
+%     figure;
+%     subplot(1,2,1);
+%     % Weird indexing necessary due to border of CNN classification
+%     imagesc(raw(1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
+%         1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
+%         z+cnet.randOfConvn(3)/2));
+%     axis equal; axis off;
+%     subplot(1,2,2);
+%     imagesc(classification(:,:,z));
+%     axis equal; axis off;
+%     colormap('gray');
+
+    % segment (no grid serach performed du to no dense annotation, just tried some values)
+    % probably step someone could optimize easiest
+    segmentation = watershedSeg_v1_cortex( imcomplement(classification), {.43 100} );
+
+%     % display images
+%     z = 50;
+%     figure;
+%     subplot(1,2,1);
+%     % Weird indexing necessary due to border of CNN classification
+%     imagesc(raw(1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
+%         1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
+%         z+cnet.randOfConvn(3)/2));
+%     axis equal; axis off;
+%     subplot(1,2,2);
+%     imagesc(segmentation(:,:,z));
+%     axis equal; axis off;
+%     colormap('gray');
+    
+    % Save everything
+    save(['/home/mberning/Desktop/ED_' num2str(c) '_seg.mat']);
+    
+
+    
+end
+
+%% Make videos again
+
+for i=1:length(coordinate)
+	load(['/home/mberning/Desktop/ED_' num2str(i) '_seg.mat']);
+	% Make video
+    raw = readKnossosRoi(stP.raw.root, stP.raw.prefix, bboxWithBorder);
+    makeSegMovie(segmentation,raw(1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
+        1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
+        1+cnet.randOfConvn(3)/2:end-cnet.randOfConvn(3)/2),[outputDirectory filesep 'ED_segmentation' num2str(c) '.avi']);
+end
+
