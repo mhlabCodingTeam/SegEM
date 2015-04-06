@@ -9,7 +9,7 @@ for layer=2:cnet.numLayer
 	end
 	gradient.layer{layer}.B = zeros(1,cnet.layer{layer}.numFeature);
 	for fm=1:cnet.layer{layer}.numFeature
-		gradient.layer{layer}.B(fm) = sum(sensitivity{layer,fm}(:));
+		gradient.layer{layer}.B(fm) = cnet.run.saveClass(sum(sensitivity{layer,fm}(:)));
 	end
 end
 
