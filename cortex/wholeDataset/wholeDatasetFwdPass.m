@@ -131,7 +131,7 @@ makeSegMovie(segmentation,raw(1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,
 
 % Load old cortex CNN
 load([dataDirectory filesep 'supplement' filesep 'extracted' filesep 'cortex - CNN20130516T204040_8_3.mat'], 'cnet');
-% Run on Matlan GPU, was jacket GPU before
+% Run on Matlab CPU, was jacket GPU before
 cnet.run.actvtClass = @single;
 % Where raw data is located (no need to change to dataDirectory, will not
 % be included in submission)
