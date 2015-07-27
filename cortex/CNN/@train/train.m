@@ -1,7 +1,7 @@
 classdef train
     %TRAIN class representing a training run for a CNN
     % Input to constructor
-    %   outputSize - input cube size
+    %   outputSize - size of output size after CNN application
     %   savingPath - Folder for saving data generated during trainGradient      
     %   maxIter - max number of batch iterations
     %   wStart - Inital value for learning rate weights (for each layer)
