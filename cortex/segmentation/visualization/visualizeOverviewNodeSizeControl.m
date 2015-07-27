@@ -1,30 +1,25 @@
-function visualizeOverviewComparison( param,paramTest,nodeSize )
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here            
-
-if nargin == 2
-    nodeSize = 1;
-end
+function visualizeOverviewNodeSizeControl( param, paramTest)
 
 if ~exist([param.dataFolder param.figureSubfolder '/'], 'dir')
     mkdir([param.dataFolder param.figureSubfolder '/']);
 end
-display('Overview Training vs. Test Comparison');
+display('Control Plot Node Size Threshold, see reviewer 2 comment 9');
 figure('position', [1 1 1600 785]);
 hold on;
-[a, b, c] = plotParam(param, [0 0 0]);
-[d, e, f] = plotParam(paramTest, [0.05 0.5 0.25]);
+[a, b, c] = plotParam(paramTest, [0 0 0], 1);
+[d, e, f] = plotParam(paramTest, [0.5 0 0], 3);
+[g, h, k] = plotParam(paramTest, [1 0 0], 5);
 xlabel('average distance between merger [nm]');
 ylabel('average distance between splits [nm]');
 zlabel('# objects');
 set(gca, 'XScale', 'log');
 set(gca, 'YScale', 'log');
 grid off;
-legend([a b c d e f], 'training node threshold 1', 'training node threshold 2', 'training node threshold 3' ...
-    , 'test node threshold 1', 'test node threshold 2', 'test node threshold 3');
+legend([a b c d e f g h k], 'nT 1; nS 1', 'nT 2; nS 1', 'nT 3 nS 1', 'nT 1; nS 3', 'nT 2; nS 3', 'nT 3 nS 3',...
+    'nT 1; nS 5', 'nT 2; nS 5', 'nT 3 nS 5');
 saveas(gcf, [param.dataFolder param.figureSubfolder filesep 'overviewComparisonNew.fig']);
 
-function [u, v, w] = plotParam(param, color)
+function [u, v, w] = plotParam(param, color, nodeSize)
     marker = {'+' 'o' 'x'};
     paramCell = getParamCombinations(param.algo);   
     for i=1:1%only first algo for cortex size(paramCell,2)

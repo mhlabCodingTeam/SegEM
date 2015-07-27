@@ -29,9 +29,10 @@ clear i;
 param.r = 0; % Radii for Morphological Reconstruction
 param.algo(1).fun = @(seg,pars) watershedSeg_v1_cortex(seg, pars(:));
 %param.algo(1).par = {0.02:0.02:0.7 0:50:100};
-param.algo(1).par = {0.2:0.1:0.8 [10 50]};
+param.algo(1).par = {0.2:0.05:0.4 [10 50]};
 param.algo(2).fun = @(seg,pars) watershedSeg_v2_cortex(seg, pars(:));
-param.algo(2).par = {0.2:0.1:0.8 0:50:100};
+% param.algo(2).par = {0.2:0.1:0.8 0:50:100};
+param.algo(2).par = {[] []};
 
 % Set parameter for evaluation
 param.nodeThres = 1; % Number of nodes within object that count as connection
@@ -98,4 +99,7 @@ end
 delete(pp);
 
 %% Visualize training vs. test set comparison on subsampled skeletons
-visualizeOverviewComparison(param,paramTest);
+visualizeOverviewComparison(param,paramTest,3);
+
+%%
+visualizeOverviewNodeSizeControl(param, paramTest);

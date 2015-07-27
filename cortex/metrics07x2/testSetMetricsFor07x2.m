@@ -19,7 +19,7 @@ testSet.border = [50; 50; 25];
 % Note MB: Checked that all settings are equal to training set supplied
 % with SegEM
 if ~exist(testSet.metaFile, 'file')
-    convertTestSetFromKLEETracingToLabelmatrix(testSet); 
+    convertTestSetFromKLEETracingToLabelmatrix(testSet);
 end
 load(testSet.metaFile);
 
