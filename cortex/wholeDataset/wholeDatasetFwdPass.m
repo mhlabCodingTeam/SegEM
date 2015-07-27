@@ -60,10 +60,10 @@ load([dataDirectory filesep 'supplement' filesep 'extracted' filesep 'cortex - C
 cnet.run.actvtClass = @single;
 % Where raw data is located (no need to change to dataDirectory, will not
 % be included in submission)
-stP.raw.root = 'Z:\Data\berningm\stackPL\color\1\';
-stP.raw.prefix = '2015-02-05_st118_st118a_mag1';
+stP.raw.root = '/home/mberning/fsHest/Data/karimia/Cubed datasets/st0010_cubing/Aligned/ppc/results/2015-07-13_exAK_st00x10a/cubes/color/1/';
+stP.raw.prefix = '2015-07-13_exAK_st00x10a_mag1';
 % Which region to classify
-bbox = [1301 1700; 1301 1900; 115 214];
+bbox = [1301 1700; 1301 1900; 700 750];
 % Load data with right border for cnet
 bboxWithBorder(:,1) = bbox(:,1) - ceil(cnet.randOfConvn'/2);
 bboxWithBorder(:,2) = bbox(:,2) + ceil(cnet.randOfConvn'/2);
@@ -74,8 +74,8 @@ raw = readKnossosRoi(stP.raw.root, stP.raw.prefix, bboxWithBorder);
 
 %% Normalize data
 if cnet.normalize
-	raw = single(raw) - 155;
-    raw = raw ./ 57;
+	raw = single(raw) - 141;
+    raw = raw ./ 50;
 else
 	raw = single(raw);
 end
@@ -123,9 +123,12 @@ save('/home/mberning/Desktop/PL_seg.mat');
 
 %% Make video
 raw = readKnossosRoi(stP.raw.root, stP.raw.prefix, bboxWithBorder);
+for i=1:size(raw,3)
+    raw(:,:,i) = medfilt2(raw(:,:,i), [3 3]);
+end
 makeSegMovie(segmentation,raw(1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
     1+cnet.randOfConvn(1)/2:end-cnet.randOfConvn(1)/2,...
-    1+cnet.randOfConvn(3)/2:end-cnet.randOfConvn(3)/2),[outputDirectory filesep 'PL_segmentation.avi']);
+    1+cnet.randOfConvn(3)/2:end-cnet.randOfConvn(3)/2),[outputDirectory filesep 'AK_segmentation.avi']);
 
 %% Another example: Apply cortex classifier to Eliot Dow's stack
 

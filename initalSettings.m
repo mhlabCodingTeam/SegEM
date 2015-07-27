@@ -15,12 +15,14 @@ if strcmp(computer('arch'), 'glnxa64')
     % Linux mex
     mex CFLAGS="\$CFLAGS -U FORTIFY_SOURCE -std=c99" -largeArrayDims -outdir retina/segmentation/watershedBasedSeg retina/segmentation/watershedBasedSeg/watershed_threeTimes3D.c;
     mex -outdir auxiliaryMethods auxiliaryMethods/parseNml.c;
+    mex -outdir auxiliaryMethods auxiliaryMethods/parseNml_noInVP.c;
 elseif strcmp(computer('arch'), 'PCWIN64') || strcmp(computer('arch'), 'win64') % Matlab docu inconsitent
     % Windows mex (was not able to get watershed compile using Windows SDK
     % 7.1 C-compiler (does not support C99 standard?). Works using c++
     % compiler, weird behaviour
     mex -largeArrayDims -outdir retina\segmentation\watershedBasedSeg retina\segmentation\watershedBasedSeg\watershed_threeTimes3D.cpp;
     mex -outdir auxiliaryMethods auxiliaryMethods\parseNml.c;
+    mex -outdir auxiliaryMethods auxiliaryMethods\parseNml_noInVP.c;
 else
     display('Please set up mex to run with your architecture!')
 end
