@@ -11,6 +11,7 @@
 #include "mex.h"
 #include "stdio.h"
 #include "time.h"
+#include "string.h"
 
 #define VERSION       "0.12"
 #define VERSION_DATE  "03.03.2014"

@@ -11,8 +11,6 @@ segmentation = newIds(n);
 segmentation = reshape(segmentation, sizeCube);
 % Create colormap (with bg set to white and black to avoid those)
 cm = distinguishable_colors(length(unique(segmentation(:)))-1, [0 0 0; 1 1 1]);
-% Add black for bg
-cm = [0 0 0; cm];
 
 figure('Resize', 'off');
 set(gcf,'NextPlot','replacechildren');
@@ -32,10 +30,10 @@ for f=1:size(raw,3)
     hold off;
     imshow(raw(:,:,f), [0 255]);
     hold on;
-    temp = label2rgb(segmentation(:,:,f), cm);
+    temp = label2rgb(segmentation(:,:,f), cm, 'k');
     himage = imagesc(temp);
     caxis([-100 355]);
-    set(himage, 'AlphaData', 0.05 );
+    set(himage, 'AlphaData', 0.1 );
     frame = getframe;
     if f == 1
         sizeFrame = size(frame);

@@ -1,0 +1,42 @@
+import trainableSegmentation.metrics.*;
+import ij.IJ;
+import ij.measure.ResultsTable;
+import ij.plugin.filter.Analyzer;
+
+double[] params = new double[31];
+double[] rErr = new double[31];
+
+// should be some sort of linspace function in java?
+for ( int n = 0; n < params.length; n++) 
+{
+	params[n] = 0.55 + 0.01 * n;
+}
+
+originalLabels = IJ.openImage("Z:\\Data\\berningm\\20150205paper1submission\\onlineMaterial\\extracted\\testSet\\forFiji\\targetI1Up.tif");
+originalLabels.show();
+
+for ( int n = 0; n < params.length; n++ )
+{
+	filename = "Z:\\Data\\berningm\\20150205paper1submission\\onlineMaterial\\extracted\\testSet\\forFiji\\automated\\thres\\WS_th" + IJ.d2s(params[n], 2) + ".tif";
+	IJ.log(filename);
+	
+	proposedLabels = IJ.openImage( filename );
+	proposedLabels.show();
+	
+	IJ.log("\nCalculating maximal F-score of the foreground-restricted Rand index...");
+	metric = new RandError( originalLabels, proposedLabels );
+	maxFScore = metric.getForegroundRestrictedRandIndexMaximalFScore( 0.0, 1.0, 0.1 );
+	IJ.log("  Minimum foreground-restricted Rand error: " + (1.0 - maxFScore) );
+
+	rErr[n] = 1.0 - maxFScore;
+	
+	proposedLabels.close();
+}
+
+originalLabels.close();
+
+// this for loop should not be necessaty either? how to log vector?
+for ( int n = 0; n < params.length; n++) 
+{
+	IJ.log(IJ.d2s(params[n],2) + "," + IJ.d2s(rErr[n],6));
+}

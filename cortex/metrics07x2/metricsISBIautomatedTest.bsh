@@ -1,0 +1,110 @@
+import trainableSegmentation.metrics.*;
+import ij.IJ;
+
+double[] rErr = new double[36];
+double[] wErr = new double[36];
+double[] pErr = new double[36];
+double[] vErr = new double[36];
+double[] rErr2 = new double[36];
+double[] wErr2 = new double[36];
+double[] pErr2 = new double[36];
+double[] vErr2 = new double[36];
+
+for ( int n = 0; n < 36; n++ )
+{	
+	filenameTarget = "Z:\\Data\\berningm\\20150205paper1submission\\onlineMaterial\\extracted\\testSet\\forFiji\\automated\\testSetISBImetrics\\20150622\\t" + IJ.pad(n+1,2) + ".tif";
+	filenameClassification = "Z:\\Data\\berningm\\20150205paper1submission\\onlineMaterial\\extracted\\testSet\\forFiji\\automated\\testSetISBImetrics\\20150622\\c" + IJ.pad(n+1,2) + ".tif";
+	filenameWatershed = "Z:\\Data\\berningm\\20150205paper1submission\\onlineMaterial\\extracted\\testSet\\forFiji\\automated\\testSetISBImetrics\\20150622\\w" + IJ.pad(n+1,2) + ".tif";
+	
+	IJ.log(filenameTarget);
+	IJ.log(filenameClassification);
+	IJ.log(filenameWatershed);
+
+	originalLabels = IJ.openImage( filenameTarget );
+	originalLabels.show();
+	
+	proposedLabels = IJ.openImage( filenameClassification );
+	proposedLabels.show();
+
+	// Rand error
+	IJ.log("\nCalculating maximal F-score of the foreground-restricted Rand index...");
+	metric = new RandError( originalLabels, proposedLabels );
+	maxFScore = metric.getForegroundRestrictedRandIndexMaximalFScore( 0.0, 1.0, 0.1 );
+	IJ.log("  Minimum foreground-restricted Rand error: " + (1.0 - maxFScore) );
+	rErr[n] = 1.0 - maxFScore;
+
+	// Warping error
+    IJ.log("\nCalculating warping error by minimizing splits and mergers...");
+    metric = new WarpingError( originalLabels, proposedLabels );    
+    warpingError = metric.getMinimumSplitsAndMergersErrorValue( 0.0, 0.9, 0.1, false, 20 );
+    IJ.log("  Minimum warping error: " + warpingError);
+    IJ.log("  # errors (splits + mergers pixels) = " + Math.round(warpingError * originalLabels.getWidth() * originalLabels.getHeight() * originalLabels.getImageStackSize() ) );
+	wErr[n] = warpingError;
+
+    // Pixel Error
+    IJ.log("\nCalculating pixel error...");
+    metric = new PixelError( originalLabels, proposedLabels );
+    maxFScore = metric.getPixelErrorMaximalFScore( 0.0, 1.0, 0.1 ); 
+    IJ.log("  Minimum pixel error: " + (1.0 - maxFScore) );
+	pErr[n] = (1.0 - maxFScore);
+
+    // Variation of information
+    IJ.log("\nCalculating variation of information...");
+    metric = new VariationOfInformation( originalLabels, proposedLabels );
+    vi = metric.getMinimumForegroundRestrictedMetricValue( 0.0, 1.0, 0.1 ); 
+    IJ.log("  Minimum variation of information: " + vi );
+	vErr[n] = vi;
+	
+	proposedLabels.close();
+	
+	proposedLabels = IJ.openImage( filenameWatershed );
+	proposedLabels.show();
+
+	// Rand error
+	IJ.log("\nCalculating maximal F-score of the foreground-restricted Rand index...");
+	metric = new RandError( originalLabels, proposedLabels );
+	maxFScore = metric.getForegroundRestrictedRandIndexMaximalFScore( 0.0, 1.0, 0.1 );
+	IJ.log("  Minimum foreground-restricted Rand error: " + (1.0 - maxFScore) );
+	rErr2[n] = 1.0 - maxFScore;
+
+	// Warping error
+    IJ.log("\nCalculating warping error by minimizing splits and mergers...");
+    metric = new WarpingError( originalLabels, proposedLabels );    
+    warpingError = metric.getMinimumSplitsAndMergersErrorValue( 0.0, 0.9, 0.1, false, 20 );
+    IJ.log("  Minimum warping error: " + warpingError);
+    IJ.log("  # errors (splits + mergers pixels) = " + Math.round(warpingError * originalLabels.getWidth() * originalLabels.getHeight() * originalLabels.getImageStackSize() ) );
+	wErr2[n] = warpingError;
+
+    // Pixel Error
+    IJ.log("\nCalculating pixel error...");
+    metric = new PixelError( originalLabels, proposedLabels );
+    maxFScore = metric.getPixelErrorMaximalFScore( 0.0, 1.0, 0.1 ); 
+    IJ.log("  Minimum pixel error: " + (1.0 - maxFScore) );
+	pErr2[n] = (1.0 - maxFScore);
+
+    // Variation of information
+    IJ.log("\nCalculating variation of information...");
+    metric = new VariationOfInformation( originalLabels, proposedLabels );
+    vi = metric.getMinimumForegroundRestrictedMetricValue( 0.0, 1.0, 0.1 ); 
+    IJ.log("  Minimum variation of information: " + vi );
+	vErr2[n] = vi;
+	
+	proposedLabels.close();
+	
+	originalLabels.close();
+	
+}
+
+// Output results, tried to use ResultsTable class for ImaheJ API, just kept overwriting my results, no clue why (see ij.measure.ResultsTable)
+// this for loop should not be necessaty either? how to log vector?
+for ( int n = 0; n < rErr.length; n++) 
+{
+	IJ.log(IJ.d2s(rErr[n],6) + "," + IJ.d2s(wErr[n],6) + "," + IJ.d2s(pErr[n],6) + "," + IJ.d2s(vErr[n],6));
+}
+
+IJ.log(" ");
+
+for ( int n = 0; n < rErr2.length; n++) 
+{
+	IJ.log(IJ.d2s(rErr2[n],6) + "," + IJ.d2s(wErr2[n],6) + "," + IJ.d2s(pErr2[n],6) + "," + IJ.d2s(vErr2[n],6));
+}
