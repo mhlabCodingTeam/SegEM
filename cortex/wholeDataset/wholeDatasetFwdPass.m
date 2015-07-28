@@ -63,11 +63,49 @@ cnet.run.actvtClass = @single;
 stP.raw.root = '/home/mberning/fsHest/Data/karimia/Cubed datasets/st0010_cubing/Aligned/ppc/results/2015-07-13_exAK_st00x10a/cubes/color/1/';
 stP.raw.prefix = '2015-07-13_exAK_st00x10a_mag1';
 % Which region to classify
-bbox = [1301 1700; 1301 1900; 700 750];
+bbox = [800 5114; 1260 4416; 1 1086];
 % Load data with right border for cnet
 bboxWithBorder(:,1) = bbox(:,1) - ceil(cnet.randOfConvn'/2);
 bboxWithBorder(:,2) = bbox(:,2) + ceil(cnet.randOfConvn'/2);
 raw = readKnossosRoi(stP.raw.root, stP.raw.prefix, bboxWithBorder);
+
+%% For Ali, STD & Mean normalization and median filtering
+raw = readKnossosRoi(stP.raw.root, stP.raw.prefix, bbox);
+
+%% Small test
+histCollection = zeros(100,256);
+figure;
+for z=1:1:100;
+    temp = raw(:,:,z*10);
+    subplot(10,10,z);
+    histCollection(z,:) = hist(single(temp(:)),0.5:1:255.5);
+    bar(histCollection(z,:));
+end
+% First one looks weird, see histogramm plot generated above, exclude, then
+% median
+figure;
+histCollection(histCollection == 0) = NaN;
+averageHistogramm = nanmean(histCollection(2:end,:),1);
+normpdfApproximation = normpdf(0:255,129,45);
+normpdfApproximation = normpdfApproximation./sum(normpdfApproximation);
+bar(averageHistogramm/(numel(temp)));
+hold on;
+plot(normpdfApproximation);
+
+%%
+tic;
+for z=1:size(raw,3)
+    display(num2str(z));
+    thisSlice = raw(:,:,z);
+    thisSlice = medfilt2(single(thisSlice), [3 3], 'symmetric');
+    thisSlice = histeq(uint8(thisSlice), normpdfApproximation);
+    raw(:,:,z) = uint8(thisSlice);
+end
+toc;
+
+% write back to FS:
+stP.raw.root = '/home/mberning/fsHest/Data/berningm/forAK/filteredDataset_mag1/';
+writeKnossosRoi(stP.raw.root, stP.raw.prefix, bbox(:,1)', raw);
 
 %% Make sure raw data is actually read
 % implay(raw);

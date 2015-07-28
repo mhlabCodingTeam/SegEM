@@ -171,3 +171,37 @@ datasetSize = [4608 5504 5760];
 cnet = loadSingleCNN(['/path/to/some/directory/fermatResults/trainCNN/' dateString '/net' num2str(net, '%6.6u') '/']);
 cnet.run.actvtTyp = @single;
 bigFwdPass(cnet, pathRaw, pathResult, datasetSize);
+
+%% For some reviewer, calculate errors for figure 4 (pixel error on cortex test region for retina test set)
+
+% Load one cortex test stack
+load('/home/mberning/fsHest/Data/berningm/20150205paper1submission/onlineMaterial/extracted/testSet/targetKLEE/130.mat');
+% Load retina CNN
+%load('/home/mberning/fsHest/Data/berningm/20150205paper1submission/supplement/extracted/retina - CNN32.mat', 'cnet');
+% Or load cortex CNN (need to comment uncomment some other lines below as
+% well if siwtching back to retina )
+load('/home/mberning/fsHest/Data/berningm/20150205paper1submission/supplement/extracted/cortex - CNN20130516T204040_8_3.mat', 'cnet');
+
+% Specify activity type to be single rather than gsingle (could also use
+% gpuarray, gsingle still old jacket approach)
+%cnet.run.actvtTyp = @single;
+cnet.run.actvtClass = @single;
+% Normalize stack
+rawBig = normalizeStack(single(rawBig));
+% Run CNN forwardPass
+class = cnet.fwdPass3D(rawBig);
+% Drop result from earlier layers
+class(1:5,:) = [];
+% Cut out valid region in 3 affinity maps (last layer of output)
+% f = @(x)x(33:end-33,33:end-33,18:end-18);
+% class = cellfun(f,class(1:3), 'UniformOutput', false);
+f = @(x)x(26:end-25,26:end-25,16:end-15);
+class = cellfun(f,class(1), 'UniformOutput', false);
+% Average 3 affinity maps generated as output
+% aff = cat(4,class{:});
+% aff = mean(aff,4);
+% Compute squared pixel error
+g = @(x,y)sum(reshape((x-y).^2/2, [numel(x) 1 1]))/1e6;
+% error = g(aff, single(target));
+error = g(class{1}, single(target));
+display(num2str(error));
