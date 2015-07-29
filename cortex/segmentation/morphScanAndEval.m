@@ -1,4 +1,9 @@
-function job = morphScanAndEval( param, nameAffMap, r)
+function job = morphScanAndEval( param, nameAffMap, r, fullGrow)
+
+if nargin < 4
+    % Classic SegEM behaviour
+    fullGrow = false;
+end
 
 % Morphological Reconstruction
 a = load([param.dataFolder param.affSubfolder nameAffMap '.mat'], 'classification');
@@ -25,8 +30,14 @@ paramCell = getParamCombinations(param.algo);
 for i=1:size(paramCell,2)
     parfor j=1:length(paramCell{i})
         %scan
+        display(j);
         fun = paramCell{i}{j}{1};
         segmentation = fun(affReconRecon,paramCell{i}{j}{2}(:));
+        if fullGrow
+            segTemp = imdilate(segmentation, ones(3,3,3));
+            borders = segmentation == 0;
+            segmentation(borders) = segTemp(borders);
+        end
         parsave([param.dataFolder param.outputSubfolder nameAffMap filesep 'seg' num2str(r) '-' num2str(i) '-' num2str(j) '.mat'], segmentation);
         %evaluate
         eval = evaluateSeg(segmentation, param.skel, param.nodeThres);

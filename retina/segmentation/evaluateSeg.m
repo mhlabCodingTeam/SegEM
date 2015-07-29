@@ -9,6 +9,7 @@ merge = struct('vec', {}, 'idx', {}, 'obj', {}, 'sum', {});
 for i=1:size(segmentation,1)
     for j=1:size(segmentation,2)
         for k=1:size(segmentation,3)
+            display(num2str([i j k]));
             general(i,j,k).maxNrObjects = single(length(unique(segmentation{i,j,k}(:))));
             general(i,j,k).equivMatrix = zeros(size(skeletons,2), single(max(segmentation{i,j,k}(:))));
             for l=1:size(skeletons,2)

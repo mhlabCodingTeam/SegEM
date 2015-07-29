@@ -1,4 +1,4 @@
-layer = 6;
+layer = 2;
 figure;
 subplot(2,2,1);
 cnet = cnn(4,[10 10 10 10], [10 10 10], train([10 10 10], '/home/mberning/', 1e6, 1e-2, 1e-2), 0, 0, 0, 1);
