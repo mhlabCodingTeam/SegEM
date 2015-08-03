@@ -20,13 +20,13 @@ l = plot3(squeeze(sampleCoordR(normalIdx,1:2,1)),squeeze(sampleCoordR(normalIdx,
 wholeCellIdx = sub2ind([length(pp.param.r) length(pp.param.pR{2}{1}) length(pp.param.pR{2}{1})], 2, find(abs(pp.param.pR{2}{1} - 0.31) < 0.001), find(pp.param.pR{2}{2} == 20));
 m = plot3(squeeze(sampleCoordR(wholeCellIdx,1:2,1)),squeeze(sampleCoordR(wholeCellIdx,1:2,2)),squeeze(sampleCoordR(wholeCellIdx,1:2,3)), ':', 'Color', [93/255 71/255 139/255], 'LineWidth', 2);
 % Plot optimal IEDs
-keptSampleCoord1 = squeeze(sampleCoordR(keptSamplesR(:,1),1,:));
-keptSampleCoord2 = squeeze(sampleCoordR(keptSamplesR(:,2),2,:));
-keptSampleCoord3 = squeeze(sampleCoordR(keptSamplesR(:,3),3,:));
+keptSampleCoord1T = squeeze(sampleCoordR(keptSamplesR(:,1),1,:));
+keptSampleCoord2T = squeeze(sampleCoordR(keptSamplesR(:,2),2,:));
+keptSampleCoord3T = squeeze(sampleCoordR(keptSamplesR(:,3),3,:));
 % Group 3 NN
-keptSampleCoord1 = extractCoM(keptSampleCoord1);
-keptSampleCoord2 = extractCoM(keptSampleCoord2);
-keptSampleCoord3 = extractCoM(keptSampleCoord3);
+[keptSampleCoord1, idx1, ied1] = extractCoM(keptSampleCoord1T);
+[keptSampleCoord2, idx2, ied2] = extractCoM(keptSampleCoord2T);
+[keptSampleCoord3, idx3, ied3] = extractCoM(keptSampleCoord3T);
 tempIED1 = 1./(1./keptSampleCoord1(:,1)+1./keptSampleCoord1(:,2));
 tempIED2 = 1./(1./keptSampleCoord2(:,1)+1./keptSampleCoord2(:,2));
 tempIED3 = 1./(1./keptSampleCoord3(:,1)+1./keptSampleCoord3(:,2));
@@ -40,6 +40,15 @@ n = plot3(X,Y,Z, 'sg', 'MarkerSize', 8, 'LineWidth', 2);
 text(X(1),Y(1),['\leftarrow optimal IED: ' num2str(maxVal1/1000, '%3.2f') 'microns']);
 text(X(2),Y(2),['\leftarrow optimal IED: ' num2str(maxVal2/1000, '%3.2f') 'microns']);
 text(X(3),Y(3),['\leftarrow optimal IED: ' num2str(maxVal3/1000, '%3.2f') 'microns']);
+% Output for parameters etc. of optimal IED
+display('Node threshold 1, middle segmentation of 3 NN according to IED:');
+[rIdx, pR1Idx, pR2Idx] = ind2sub([length(pp.param.r) length(pp.param.pR{2}{1}) length(pp.param.pR{2}{2})], idx1(maxID1));
+display(['IED: ' num2str(ied1(maxID1)) ', Merger: ' num2str(keptSampleCoord1T(idx1(maxID1),1)) ', Split: ' num2str(keptSampleCoord1T(idx1(maxID1),2))]);
+display(['Parameter = ' num2str(pp.param.r(rIdx)) ', ' num2str(pp.param.pR{2}{1}(pR1Idx)) ', ' num2str(pp.param.pR{2}{2}(pR2Idx))]);
+display('Node threshold 2, middle segmentation of 3 NN according to IED:');
+[rIdx, pR1Idx, pR2Idx] = ind2sub([length(pp.param.r) length(pp.param.pR{2}{1}) length(pp.param.pR{2}{2})], idx2(maxID2));
+display(['IED: ' num2str(ied2(maxID2)) ', Merger: ' num2str(keptSampleCoord2T(idx2(maxID2),1)) ', Split: ' num2str(keptSampleCoord2T(idx2(maxID2),2))]);
+display(['Parameter = ' num2str(pp.param.r(rIdx)) ', ' num2str(pp.param.pR{2}{1}(pR1Idx)) ', ' num2str(pp.param.pR{2}{2}(pR2Idx))]);
 % CORTEX 
 % New section, plot 3-Lines
 % First get parameter used for each segmentation
@@ -54,13 +63,13 @@ g = plot3(squeeze(sampleCoord(normalIdx,1:2,1)),squeeze(sampleCoord(normalIdx,1:
 wholeCellIdx = all(bsxfun(@eq, temp, [0.25 10]),2);
 h = plot3(squeeze(sampleCoord(wholeCellIdx,1:2,1)),squeeze(sampleCoord(wholeCellIdx,1:2,2)),squeeze(sampleCoord(wholeCellIdx,1:2,3)), ':', 'Color', [0 139/255 139/255], 'LineWidth', 2);
 % Plot optimal IEDs
-keptSampleCoord1 = squeeze(sampleCoord(keptSamples(:,1),1,:));
-keptSampleCoord2 = squeeze(sampleCoord(keptSamples(:,2),2,:));
-keptSampleCoord3 = squeeze(sampleCoord(keptSamples(:,3),3,:));
+keptSampleCoord1T = squeeze(sampleCoord(keptSamples(:,1),1,:));
+keptSampleCoord2T = squeeze(sampleCoord(keptSamples(:,2),2,:));
+keptSampleCoord3T = squeeze(sampleCoord(keptSamples(:,3),3,:));
 % Group 3 NN
-keptSampleCoord1 = extractCoM(keptSampleCoord1);
-keptSampleCoord2 = extractCoM(keptSampleCoord2);
-keptSampleCoord3 = extractCoM(keptSampleCoord3);
+[keptSampleCoord1, idx1, ied1] = extractCoM(keptSampleCoord1T);
+[keptSampleCoord2, idx2, ied2] = extractCoM(keptSampleCoord2T);
+[keptSampleCoord3, idx3, ied3] = extractCoM(keptSampleCoord3T);
 tempIED1 = 1./(1./keptSampleCoord1(:,1)+1./keptSampleCoord1(:,2));
 tempIED2 = 1./(1./keptSampleCoord2(:,1)+1./keptSampleCoord2(:,2));
 tempIED3 = 1./(1./keptSampleCoord3(:,1)+1./keptSampleCoord3(:,2));
@@ -74,6 +83,13 @@ k = plot3(X,Y,Z, '*g', 'LineWidth', 2);
 text(X(1),Y(1),['\leftarrow optimal IED: ' num2str(maxVal1/1000, '%3.2f') 'microns']);
 text(X(2),Y(2),['\leftarrow optimal IED: ' num2str(maxVal2/1000, '%3.2f') 'microns']);
 text(X(3),Y(3),['\leftarrow optimal IED: ' num2str(maxVal3/1000, '%3.2f') 'microns']);
+% Output for parameters etc. of optimal IED
+display('Node threshold 1, middle segmentation of 3 NN according to IED:');
+display(['IED: ' num2str(ied1(maxID1)) ', Merger: ' num2str(keptSampleCoord1T(idx1(maxID1),1)) ', Split: ' num2str(keptSampleCoord1T(idx1(maxID1),2))]);
+display(['Parameter = ' num2str(0) ', ' num2str(temp(idx1(maxID1),1)) ', ' num2str(temp(idx1(maxID1),2))]);
+display('Node threshold 2, middle segmentation of 3 NN according to IED:');
+display(['IED: ' num2str(ied2(maxID2)) ', Merger: ' num2str(keptSampleCoord2T(idx2(maxID2),1)) ', Split: ' num2str(keptSampleCoord2T(idx2(maxID2),2))]);
+display(['Parameter = ' num2str(0) ', ' num2str(temp(idx2(maxID2),1)) ', ' num2str(temp(idx2(maxID2),2))]);
 % Formatting
 xlabel('average distance between merger [microns]');
 ylabel('average distance between splits [microns]');
@@ -193,10 +209,13 @@ for algo=2%threshold only used for retina currently
 end
 end
 
-function comThreeNearestNeighbours = extractCoM(pointList)
-for i=1:size(pointList,1)
-    distances = sqrt(sum((pointList - repmat(pointList(i,:),size(pointList,1),1)).^2,2));
-    [~,idx] = sort(distances);
-    comThreeNearestNeighbours(i,:) = mean(pointList(idx(1:3),:),1);
-end
+function [comThreeNearestNeighbours, middleIdx, ied] = extractCoM(pointList)
+    for i=1:size(pointList,1)
+        distances = sqrt(sum((pointList - repmat(pointList(i,:),size(pointList,1),1)).^2,2));
+        [~,idx] = sort(distances);
+        comThreeNearestNeighbours(i,:) = mean(pointList(idx(1:3),:),1);
+        [a, b] = sort(1./((1./pointList(idx(1:3),1))+(1./pointList(idx(1:3),2))));
+        middleIdx(i) = idx(b);
+        ied(i) = a;
+    end
 end

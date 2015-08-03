@@ -11,8 +11,8 @@ function inputs = getParamCombinations( algo )
                 inputs{i}{j} = {algo(i).fun cellfun(@(x,s)(x(s)), algo(i).par, subs, 'UniformOutput', false)};
             end
             % Quick hack, add values from paper segmentations cortex
-%             inputs{i}{106} = {algo(i).fun {0.39 50}};
-%             inputs{i}{107} = {algo(i).fun {0.25 10}};
+            inputs{i}{106} = {algo(i).fun {0.39 50}};
+            inputs{i}{107} = {algo(i).fun {0.25 10}};
         end
     end
 
