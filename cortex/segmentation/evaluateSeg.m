@@ -8,6 +8,8 @@ end
 
 general.maxNrObjects = single(length(unique(segmentation(:))));
 general.equivMatrix = zeros(size(skeletons,2), single(max(segmentation(:))));
+general.zeroHits = 0;
+general.nodesTotal = 0;
 for l=1:size(skeletons,2)
     if size(skeletons{l}.nodes,1) > 0
         nodes{l} = skeletons{l}.nodes(:,1:3);
@@ -17,10 +19,11 @@ for l=1:size(skeletons,2)
                 max((centerNode(2)-(nodeSize-1)/2),1):min((centerNode(2)+(nodeSize-1)/2),size(segmentation,2)), ...
                 max((centerNode(3)-(nodeSize-1)/2),1):min((centerNode(3)+(nodeSize-1)/2),size(segmentation,3)));
             nodeIDs = unique(nodeIDs(:));
+            general.zeroHits = general.zeroHits + sum(nodeIDs == 0);
+            general.nodesTotal = general.nodesTotal + 1;
             nodeIDs(nodeIDs == 0) = [];
             for i=1:length(nodeIDs)
-               general.equivMatrix(l,nodeIDs(i)) = ...
-                    general.equivMatrix(l,nodeIDs(i)) + 1;
+               general.equivMatrix(l,nodeIDs(i)) = general.equivMatrix(l,nodeIDs(i)) + 1;
             end
         end
     end              

@@ -2,18 +2,21 @@
 % this requires first 'cell' of wholeDatasetFwdPass.m has been executed
 % before (performs classification on densly skeletonized regions)
 
-if ~exist([outputDirectory filesep 'segOptCortex' filesep], 'dir')
-    mkdir([outputDirectory filesep 'segOptCortex' filesep]);
-end
-
 % Folder structure 
-param.dataFolder = [outputDirectory filesep 'segOptCortex' filesep];
+param.dataFolder = [outputDirectory filesep 'segOptCortex4' filesep];
 param.affSubfolder = ['aff' filesep];
 param.outputSubfolder = ['output' filesep];
+param.figureSubfolder = [param.outputSubfolder 'figures' filesep];
+
+if ~exist(param.dataFolder, 'dir')
+    mkdir(param.dataFolder);
+end
+if ~exist([param.dataFolder param.affSubfolder], 'dir');
+    mkdir([param.dataFolder param.affSubfolder])
+end
 if ~exist([param.dataFolder param.outputSubfolder], 'dir');
     mkdir([param.dataFolder param.outputSubfolder])
 end
-param.figureSubfolder = [param.outputSubfolder 'figures' filesep];
 if ~exist([param.dataFolder param.figureSubfolder], 'dir');
     mkdir([param.dataFolder param.figureSubfolder])
 end
@@ -28,8 +31,8 @@ clear i;
 % Set parameter for scan
 param.r = 0; % Radii for Morphological Reconstruction
 param.algo(1).fun = @(seg,pars) watershedSeg_v1_cortex(seg, pars(:));
-%param.algo(1).par = {0.02:0.02:0.7 0:50:100};
-param.algo(1).par = {0.2:0.05:0.4 [10 50]};
+param.algo(1).par = {0.02:0.02:0.7 0:50:100};
+%param.algo(1).par = {0.20:0.01:0.5 [10 50]};
 param.algo(2).fun = @(seg,pars) watershedSeg_v2_cortex(seg, pars(:));
 % param.algo(2).par = {0.2:0.1:0.8 0:50:100};
 param.algo(2).par = {[] []};
@@ -92,14 +95,17 @@ for map=1:length(paramTest.affMaps)
     tic
     for r=1:length(paramTest.r)
         disp(['Started morph, scan and eval for map ' num2str((map-1).*length(paramTest.r)+r) '/' num2str(length(paramTest.affMaps).*length(paramTest.r))]);
-        morphScanAndEval(paramTest,paramTest.affMaps(map).name,r);
+        morphScanAndEval(paramTest,paramTest.affMaps(map).name,r, true);
     end
     toc
 end
 delete(pp);
 
 %% Visualize training vs. test set comparison on subsampled skeletons
-visualizeOverviewComparison(param,paramTest,3);
+visualizeOverviewComparison(param,paramTest);
+
+%%
+visualizeOverviewWithThreeLinesAndZeroHits( param,paramTest )
 
 %%
 visualizeOverviewNodeSizeControl(param, paramTest);

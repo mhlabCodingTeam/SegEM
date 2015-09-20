@@ -60,7 +60,7 @@ load([dataDirectory filesep 'supplement' filesep 'extracted' filesep 'cortex - C
 cnet.run.actvtClass = @single;
 % Where raw data is located (no need to change to dataDirectory, will not
 % be included in submission)
-stP.raw.root = '/home/mberning/fsHest/Data/karimia/Cubed datasets/st0010_cubing/Aligned/ppc/results/2015-07-13_exAK_st00x10a/cubes/color/1/';
+stP.raw.root = 'Z:\Data\berningm\forAK\filteredDataset_mag1\';
 stP.raw.prefix = '2015-07-13_exAK_st00x10a_mag1';
 % Which region to classify
 bbox = [800 5114; 1260 4416; 1 1086];

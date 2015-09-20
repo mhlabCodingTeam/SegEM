@@ -1,12 +1,6 @@
 %% Set enviroment & parameters
 clc;
-addpath('auxiliary');
-addpath('segmentation');
-if strcmp(computer,'PCWIN64')
-    param.dataFolder =  'C:\data\minicube\';
-else
-    param.dataFolder =  '/data/e_k0563/minicube/';
-end
+param.dataFolder =  [outputDirectory 'segOptRetina' filesep];
 param.affSubfolder = ['affinityMaps' filesep];
 param.outputSubfolder = ['seg' date filesep];
 param.figureSubfolder = [param.outputSubfolder 'figures' filesep];
@@ -15,19 +9,19 @@ param.figureSubfolder = [param.outputSubfolder 'figures' filesep];
 param.r = 0:1; % Radii for Morphological Reconstruction
 param.algo{1} = 'v1'; % Hmin Segmentation (not used for now)
 param.pR{1,1} = {[] []}; % Depth minima removal & marker volumes cutoff (should be increasing values for 2nd param)
-param.pR{2,1} = {[] []};
-param.pR{3,1} = {[] []};
-param.pR{4,1} = {[] []};
-param.pR{5,1} = {[] []};
+% param.pR{2,1} = {[] []};
+% param.pR{3,1} = {[] []};
+% param.pR{4,1} = {[] []};
+% param.pR{5,1} = {[] []};
 param.algo{2} = 'v2'; % Threshold Segmentation
-param.pR{1,2} = {[] []}; % Threshold & marker volumes cutoff (should be increasing values for 2nd param)
-param.pR{2,2} = {[] []};
-param.pR{3,2} = {[] []};
-param.pR{4,2} = {-0.2:0.02:-0.1 0:20:100};
-param.pR{5,2} = {0.25:0.02:0.35 0:20:100};
+param.pR{1,2} = {0.2:0.01:0.5 [0:20:60 100 150]}; % Threshold & marker volumes cutoff (should be increasing values for 2nd param)
+% param.pR{2,2} = {[] []};
+% param.pR{3,2} = {[] []};
+% param.pR{4,2} = {-0.2:0.02:-0.1 0:20:100};
+% param.pR{5,2} = {0.25:0.02:0.35 0:20:100};
 % Set parameter for evaluation
 param.nodeThres = 1; % Number of nodes within object that count as connection
-param.skeletons = 'ssdf.221.nml'; % Skeleton file for segmentation evaluation
+param.skeletons = 'retina_test_local_subsampled.nml'; % Skeleton file for segmentation evaluation
 param.cmSource = 'segmentation/autoKLEE_colormap.mat';
 param.makeSegMovies = true;
 param.makeErrorMovies = true;
@@ -91,7 +85,7 @@ end
 load([dataFolder subfolder 'parameter.mat']);
 
 %% Main cell for parameter tuning
-matlabpool 3;
+parpool(jobManagerName);
 % Perform morphological reconstruction (also complements; for r=0 just imcomplement is performed)
 morphR(param);
 % Start the parameter scan (will automatically save & overwrite save to outputSubfolder)
@@ -100,4 +94,4 @@ scanParameterSegmentation(param);
 evalParameterSegmentation(param);
 % Overview of performance of different segmentations
 visualizeOverview_2(param);
-matlabpool close;
+delete(pp);
