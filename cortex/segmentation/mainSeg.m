@@ -3,8 +3,12 @@
 % before (performs classification on densly skeletonized regions)
 
 % Folder structure 
-param.dataFolder = [outputDirectory filesep 'segOptCortex4' filesep];
+param.dataFolder = [outputDirectory filesep 'segOptCortex5' filesep];
+% Place a arbitrarly named .mat file in this folder containing the
+% classification of the region(s) you want to look at of size of the
+% respective dense skeleton annotations
 param.affSubfolder = ['aff' filesep];
+% Output and figure folders for saving output
 param.outputSubfolder = ['output' filesep];
 param.figureSubfolder = [param.outputSubfolder 'figures' filesep];
 
@@ -29,13 +33,11 @@ end
 clear i;
 
 % Set parameter for scan
-param.r = 0; % Radii for Morphological Reconstruction
+param.r = [0 1 2]; % Radii for Morphological Reconstruction
 param.algo(1).fun = @(seg,pars) watershedSeg_v1_cortex(seg, pars(:));
-param.algo(1).par = {0.02:0.02:0.7 0:50:100};
-%param.algo(1).par = {0.20:0.01:0.5 [10 50]};
+param.algo(1).par = {0.005:0.005:0.1 0:50:200};
 param.algo(2).fun = @(seg,pars) watershedSeg_v2_cortex(seg, pars(:));
-% param.algo(2).par = {0.2:0.1:0.8 0:50:100};
-param.algo(2).par = {[] []};
+param.algo(2).par = {1:0.05:1.7 0:50:200};
 
 % Set parameter for evaluation
 param.nodeThres = 1; % Number of nodes within object that count as connection
@@ -109,3 +111,6 @@ visualizeOverviewWithThreeLinesAndZeroHits( param,paramTest )
 
 %%
 visualizeOverviewNodeSizeControl(param, paramTest);
+
+%%
+visualizeOverviewNew( param,paramTest );

@@ -11,7 +11,7 @@ end
 display('Overview Test Retina vs. Test Cortex extended comparison');
 figure('position', [1 1 1600 785]);
 hold on;
-pp = load('D:\data\SegEM\segOptRetina\seg29-Jul-2015\parameter.mat');
+pp = load('/home/mberning/localStorage/data/SegEM/segOptRetina/seg29-Jul-2015/parameter.mat');
 [a, b, c, keptSamplesR, sampleCoordR] = plotParamLegacy(pp.param, [145/255 44/255 238/255], nodeSize);
 [d, e, f, keptSamples, sampleCoord] = plotParam(paramTest, [0 205/255 205/255], nodeSize);
 % RETINA
@@ -57,11 +57,11 @@ temp = cat(1,temp{1}{:});
 temp = temp(:,2);
 temp = cell2mat(cat(1,temp{:}));
 % Plot first line, normal segmentation a.k.a. red dot
-normalIdx = all(bsxfun(@eq, temp, [0.39 50]),2);
-g = plot3(squeeze(sampleCoord(normalIdx,1:2,1)),squeeze(sampleCoord(normalIdx,1:2,2)),squeeze(sampleCoord(normalIdx,1:2,3)), '--', 'Color', [0 139/255 139/255], 'LineWidth', 2);
-% Plot first line, whole cell segmentation a.k.a. yellow dot
-wholeCellIdx = all(bsxfun(@eq, temp, [0.25 10]),2);
-h = plot3(squeeze(sampleCoord(wholeCellIdx,1:2,1)),squeeze(sampleCoord(wholeCellIdx,1:2,2)),squeeze(sampleCoord(wholeCellIdx,1:2,3)), ':', 'Color', [0 139/255 139/255], 'LineWidth', 2);
+% normalIdx = all(bsxfun(@eq, temp, [0.39 50]),2);
+% g = plot3(squeeze(sampleCoord(normalIdx,1:2,1)),squeeze(sampleCoord(normalIdx,1:2,2)),squeeze(sampleCoord(normalIdx,1:2,3)), '--', 'Color', [0 139/255 139/255], 'LineWidth', 2);
+% % Plot first line, whole cell segmentation a.k.a. yellow dot
+% wholeCellIdx = all(bsxfun(@eq, temp, [0.25 10]),2);
+% h = plot3(squeeze(sampleCoord(wholeCellIdx,1:2,1)),squeeze(sampleCoord(wholeCellIdx,1:2,2)),squeeze(sampleCoord(wholeCellIdx,1:2,3)), ':', 'Color', [0 139/255 139/255], 'LineWidth', 2);
 % Plot optimal IEDs
 keptSampleCoord1T = squeeze(sampleCoord(keptSamples(:,1),1,:));
 keptSampleCoord2T = squeeze(sampleCoord(keptSamples(:,2),2,:));
@@ -215,7 +215,7 @@ function [comThreeNearestNeighbours, middleIdx, ied] = extractCoM(pointList)
         [~,idx] = sort(distances);
         comThreeNearestNeighbours(i,:) = mean(pointList(idx(1:3),:),1);
         [a, b] = sort(1./((1./pointList(idx(1:3),1))+(1./pointList(idx(1:3),2))));
-        middleIdx(i) = idx(b);
-        ied(i) = a;
+        middleIdx(i) = idx(b(2));
+        ied(i) = a(2);
     end
 end

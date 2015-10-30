@@ -27,7 +27,7 @@ saveas(gcf, [param.dataFolder param.figureSubfolder filesep 'overviewComparisonN
 function [u, v, w] = plotParam(param, color)
     marker = {'+' 'o' 'x'};
     paramCell = getParamCombinations(param.algo);   
-    for i=1:1%only first algo for cortex size(paramCell,2)
+    for i=1:size(paramCell,2)
         for j=1:length(paramCell{i})
                 display([num2str(j, '%.3i') ' of ' num2str(length(paramCell{i}), '%.3i')]);
                 load([param.dataFolder param.outputSubfolder  param.affMaps(1).name filesep 'seg' num2str(0) '-' num2str(i) '-' num2str(j) '.mat'], 'v');
