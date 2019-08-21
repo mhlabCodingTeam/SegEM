@@ -1,7 +1,7 @@
 function generateCNNstacks()
 
 settings.sourceDir = '/gaba/u/mberning/data/cortex/originalKLEE/';
-settings.targetDir.root = '/tmpscratch/webknossos/Connectomics_Department/2012-09-28_ex145_07x2_segEM_training_data/segmentationo_no_erosion/1/';
+settings.targetDir.root = '/tmpscratch/webknossos/Connectomics_Department/2012-09-28_ex145_07x2_segEM_training_data_no_erosion/segmentation/1/';
 settings.targetDir.backend = 'wkwrap';
 
 % Locate KLEE files from database & analyze
@@ -24,7 +24,7 @@ for i=1:length(stacks)
 end
 
 % Save all relevant meta information
-writeJson(fullfile(settings.targetDir, 'stacks.json'), stacks);
+writeJson(fullfile(settings.targetDir.root, 'stacks.json'), stacks);
 
 end
 

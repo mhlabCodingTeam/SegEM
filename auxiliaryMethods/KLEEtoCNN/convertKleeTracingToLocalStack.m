@@ -33,12 +33,12 @@ for i=1:size( kn_tracing.contourList, 1 )
             pixel = sum(overlap(:));
             if pixel > 0
                 if pixel > 200
-                    figure('position', [1601 1 1920 1079]);
-                    subplot(1,3,1); imagesc(kn_inpoly); axis equal; axis off; title('Contour to add to cuurent slice');
-                    subplot(1,3,2); imagesc(kn_stack(:,:,kn_thisz)); axis equal; axis off; title('Current slice in stack');
-                    subplot(1,3,3); imagesc(overlap); axis equal; axis off; title('Overlap between 1&2');
-                    colormap(autoKLEE_colormap);
-                    warning(['Contours overlap in z-plane ' num2str(kn_thisz)  '! ' num2str(pixel) ' pixel labeled as extracellular']);
+                    %figure('position', [1601 1 1920 1079]);
+                    %subplot(1,3,1); imagesc(kn_inpoly); axis equal; axis off; title('Contour to add to cuurent slice');
+                    %subplot(1,3,2); imagesc(kn_stack(:,:,kn_thisz)); axis equal; axis off; title('Current slice in stack');
+                    %subplot(1,3,3); imagesc(overlap); axis equal; axis off; title('Overlap between 1&2');
+                    %colormap(autoKLEE_colormap);
+                    %warning(['Contours overlap in z-plane ' num2str(kn_thisz)  '! ' num2str(pixel) ' pixel labeled as extracellular']);
                 end
                 newPlane = kn_stack( :, :, kn_thisz ) + kn_inpoly;
                 newPlane(overlap) = 0;
